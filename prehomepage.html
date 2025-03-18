@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CELEBR8</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, #f9c5d1, #d8bfd8);
+            overflow: hidden;
+        }
+        .container {
+            text-align: center;
+            background: rgba(210, 220, 249, 0.886);
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            max-width: 400px;
+            width: 100%;
+            position: relative;
+            z-index: 1;
+        }
+        h1 {
+            font-family: 'Rinstonia', Arial, sans-serif; /* Apply Rinstonia font */
+            font-size: 40px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            color: #0f3c58;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+        }
+        .btn {
+            display: block;
+            width: 100%;
+            padding: 12px;
+            margin: 10px auto;
+            border: none;
+            text-decoration: none;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 8px;
+            transition: background-color 0.3s, transform 0.3s;
+        }
+        .btn.login {
+            background-color: #ff6f61;
+            color: white;
+        }
+        .btn.signup {
+            background-color: #6b5b95;
+            color: white;
+        }
+        .btn:hover {
+            transform: scale(1.05);
+        }
+        .footer {
+            margin-top: 30px;
+            font-size: 14px;
+            color: #666;
+        }
+        .footer a {
+            margin: 0 10px;
+            text-decoration: none;
+            color: #333;
+            transition: color 0.3s;
+        }
+        .footer a:hover {
+            color: #007bff;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>CELEBR8🎉</h1>
+        <a href="logincelebr8.html" class="btn login">LOGIN</a> <!-- Link to login page -->
+        <p>Don't have an account?</p>
+        <a href="signcelebr8.html" class="btn signup">SIGN UP</a> <!-- Link to signup page -->
+    </div>
+</body>
+</html>
