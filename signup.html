@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Celebr8 - Signup</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Montserrat', sans-serif;
+      background-color: #EDEAE4;
+      height: 100vh;
+      display: flex;
+    }
+
+    .left {
+      width: 45%;
+      height: 100%;
+    }
+
+    .left img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: left center;
+    }
+
+    .right {
+      width: 55%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 2rem;
+      background-color: #F9F8F7;
+      overflow-y: auto;
+    }
+
+    .container {
+      background: rgba(173, 184, 187, 0.15);
+      padding: 30px;
+      border-radius: 16px;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.08);
+      width: 100%;
+      max-width: 500px;
+    }
+
+    h1 {
+      font-size: 36px;
+      color: #153147;
+      margin-bottom: 20px;
+      text-align: center;
+      font-family: 'Playfair Display', serif;
+    }
+
+    .form-group {
+      margin-bottom: 15px;
+    }
+
+    .form-group label {
+      display: block;
+      font-weight: bold;
+      margin-bottom: 6px;
+      color: #232A2F;
+    }
+
+    .form-group input, .form-group select {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 16px;
+      background-color: #fff;
+    }
+
+    .side-by-side {
+      display: flex;
+      gap: 10px;
+    }
+
+    .half-width {
+      flex: 1;
+    }
+
+    .btn {
+      width: 100%;
+      padding: 14px;
+      font-size: 18px;
+      font-weight: bold;
+      color: white;
+      background-color: #232A2F;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      margin-top: 10px;
+      transition: background-color 0.3s ease, transform 0.3s ease;
+    }
+
+    .btn:hover {
+      background-color: #153147;
+      transform: scale(1.05);
+    }
+
+    .footer {
+      margin-top: 20px;
+      text-align: center;
+      font-size: 14px;
+      color: #666;
+    }
+
+    .footer a {
+      margin: 0 10px;
+      text-decoration: none;
+      color: #6b5b95;
+    }
+
+    .footer a:hover {
+      color: #007bff;
+    }
+  </style>
+</head>
+<body>
+  <div class="left">
+    <img src="signupimg.jpeg" alt="Celebr8 Aesthetic">
+  </div>
+
+  <div class="right">
+    <div class="container">
+      <h1>Signup to CELEBR8</h1>
+      <form id="signupForm">
+        <!-- First and Last Name -->
+        <div class="form-group side-by-side">
+          <div class="half-width">
+            <label for="firstname">First Name</label>
+            <input type="text" id="firstname" name="firstname" placeholder="Enter your first name" required>
+          </div>
+          <div class="half-width">
+            <label for="lastname">Last Name</label>
+            <input type="text" id="lastname" name="lastname" placeholder="Enter your last name" required>
+          </div>
+        </div>
+
+        <!-- Email -->
+        <div class="form-group">
+          <label for="email">Email Address</label>
+          <input type="email" id="email" name="email" placeholder="Enter your email" required pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-z]{2,}$" title="Enter a valid email address">
+        </div>
+
+        <!-- Contact -->
+        <div class="form-group">
+          <label for="contact">Contact Number</label>
+          <input type="tel" id="contact" name="contact" placeholder="Enter 10-digit mobile number" required pattern="[6-9]{1}[0-9]{9}" title="Enter a valid 10-digit Indian phone number">
+        </div>
+
+        <!-- Password and Confirm Password -->
+        <div class="form-group side-by-side">
+          <div class="half-width">
+            <label for="password">Password</label>
+            <input type="password" id="password" name="password" placeholder="Min 8 characters with A-Z, a-z, 0-9" required pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Must contain at least 8 characters, including uppercase, lowercase, and a number">
+          </div>
+          <div class="half-width">
+            <label for="confirmPassword">Confirm Password</label>
+            <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Confirm password" required>
+          </div>
+        </div>
+
+        <!-- Country (Fixed to India) -->
+        <div class="form-group">
+          <label for="country">Country</label>
+          <input type="text" id="country" name="country" value="India" readonly class="bg-gray-100 cursor-not-allowed">
+        </div>
+
+        <!-- State and City Dropdown -->
+        <div class="form-group side-by-side">
+          <div class="half-width">
+            <label for="state">State</label>
+            <select id="state" name="state" onchange="populateCities()" required>
+              <option value="">Select State</option>
+              <option value="Karnataka">Karnataka</option>
+              <option value="Maharashtra">Maharashtra</option>
+              <option value="Tamil Nadu">Tamil Nadu</option>
+              <option value="Delhi">Delhi</option>
+              <option value="West Bengal">West Bengal</option>
+              <option value="Rajasthan">Rajasthan</option>
+              <option value="Uttar Pradesh">Uttar Pradesh</option>
+              <option value="Gujarat">Gujarat</option>
+              <option value="Andhra Pradesh">Andhra Pradesh</option>
+              <option value="Telangana">Telangana</option>
+            </select>
+          </div>
+          <div class="half-width">
+            <label for="city">City</label>
+            <select id="city" name="city" required>
+              <option value="">Select City</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Address -->
+        <div class="form-group">
+          <label for="address">Address</label>
+          <input type="text" id="address" name="address" placeholder="Enter your address" required>
+        </div>
+
+        <!-- Submit Button -->
+        <button type="submit" class="btn">Submit</button>
+      </form>
+
+      <!-- Footer -->
+      <div class="footer">
+        <p>Verify using:</p>
+        <a href="#">Email and OTP</a> | <a href="#">Phone Number</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Script to populate cities -->
+  <script>
+    const citiesByState = {
+      "Karnataka": ["Bengaluru", "Mysuru", "Hubli"],
+      "Maharashtra": ["Mumbai", "Pune", "Nagpur"],
+      "Tamil Nadu": ["Chennai", "Coimbatore", "Madurai"],
+      "Delhi": ["New Delhi", "Dwarka", "Rohini"],
+      "West Bengal": ["Kolkata", "Howrah", "Durgapur"],
+      "Rajasthan": ["Jaipur", "Udaipur", "Jodhpur"],
+      "Uttar Pradesh": ["Lucknow", "Kanpur", "Varanasi"],
+      "Gujarat": ["Ahmedabad", "Surat", "Vadodara"],
+      "Andhra Pradesh": ["Vijayawada", "Visakhapatnam", "Guntur"],
+      "Telangana": ["Hyderabad", "Warangal", "Nizamabad"]
+    };
+
+    function populateCities() {
+      const state = document.getElementById("state").value;
+      const citySelect = document.getElementById("city");
+      citySelect.innerHTML = '<option value="">Select City</option>';
+      if (citiesByState[state]) {
+        citiesByState[state].forEach(city => {
+          const option = document.createElement("option");
+          option.value = city;
+          option.textContent = city;
+          citySelect.appendChild(option);
+        });
+      }
+    }
+
+    // Confirm password validation
+    document.getElementById("signupForm").addEventListener("submit", function(e) {
+      const password = document.getElementById("password").value;
+      const confirmPassword = document.getElementById("confirmPassword").value;
+      if (password !== confirmPassword) {
+        e.preventDefault();
+        alert("Passwords do not match!");
+      }
+    });
+  </script>
+</body>
+</html>
