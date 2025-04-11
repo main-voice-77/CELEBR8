@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Concert Planning</title>
+    <style>
+        body {
+            font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+            background-color: #F8F8F8;
+            margin: 0;
+            padding: 0;
+            color: #282828;
+        }
+        header {
+            background-color: #282828;
+            color: #E8E8E8;
+            text-align: center;
+            padding: 20px;
+        }
+        header h1 {
+            font-size: 2.5em;
+            font-style: italic;
+        }
+        section {
+            padding: 20px;
+            padding-bottom: 60px;
+        }
+        .filters {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+        .filter-group {
+            margin: 5px;
+            min-width: 200px;
+        }
+        .filters select, .filters input {
+            padding: 10px;
+            margin: 5px 0;
+            border-radius: 5px;
+            border: 1px solid #898989;
+            font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+            font-style: italic;
+            background-color: #F8F8F8;
+        }
+        .price-slider-container {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .price-slider {
+            flex-grow: 1;
+        }
+        .vendor-category {
+            margin-bottom: 40px;
+        }
+        .vendor-category h2 {
+            text-align: center;
+            font-style: italic;
+            color: #282828;
+        }
+        .vendor-grid {
+            display: flex;
+            flex-wrap: nowrap;
+            gap: 20px;
+            overflow-x: auto;
+        }
+        .vendor-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background-color: #E8E8E8;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(40, 40, 40, 0.163);
+            width: calc(25% - 20px);
+            flex-shrink: 0;
+        }
+        .vendor-item img {
+            width: 200px;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 8px;
+        }
+        .vendor-item .details {
+            text-align: center;
+            margin-top: 10px;
+        }
+        .vendor-item .details h3 {
+            font-size: 1.5em;
+            margin: 10px 0;
+            font-style: italic;
+            color: #282828;
+        }
+        .vendor-item .details p {
+            font-size: 1.1em;
+            margin: 5px 0;
+            font-style: italic;
+            color: #898989;
+        }
+        .vendor-item .details .rating {
+            font-size: 1em;
+            color: #898989;
+            font-style: italic;
+        }
+        .vendor-item .price {
+            font-size: 1.2em;
+            font-weight: bold;
+            color: #282828;
+            margin: 10px 0;
+            font-style: italic;
+        }
+        .vendor-item .btn-learn-more {
+            padding: 10px 15px;
+            background-color: #898989;
+            color: #F8F8F8;
+            text-decoration: none;
+            border-radius: 5px;
+            text-align: center;
+            display: inline-block;
+            font-style: italic;
+        }
+        footer {
+            text-align: center;
+            background-color: #282828;
+            color: #E8E8E8;
+            padding: 10px;
+            position: fixed;
+            width: 100%;
+            bottom: 0;
+            font-style: italic;
+        }
+        #priceValue {
+            color: #282828;
+            font-weight: bold;
+            min-width: 80px;
+            display: inline-block;
+            text-align: right;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>Concert Planning</h1>
+    <p>Find the best vendors for your concert needs!</p>
+</header>
+
+<section>
+    <div class="filters">
+        <div class="filter-group">
+            <label for="category">Select Category:</label>
+            <select id="category">
+                <option value="all">All</option>
+                <option value="food">Food & Beverages</option>
+                <option value="lighting">Lighting & Decorations</option>
+                <option value="dj">DJ Options</option>
+                <option value="venues">Venues</option>
+            </select>
+        </div>
+        <div class="filter-group">
+            <label for="price">Max Price (₹):</label>
+            <div class="price-slider-container">
+                <input type="range" id="price" class="price-slider" min="0" max="50000" value="50000" step="1000" />
+                <span id="priceValue">₹50000</span>
+            </div>
+        </div>
+        <div class="filter-group">
+            <label for="rating">Min Rating:</label>
+            <select id="rating">
+                <option value="1">1 Star</option>
+                <option value="2">2 Stars</option>
+                <option value="3">3 Stars</option>
+                <option value="4">4 Stars</option>
+                <option value="5">5 Stars</option>
+            </select>
+        </div>
+    </div>
+    
+    <!-- Food & Beverages Options -->
+    <div class="vendor-category" id="food">
+        <h2>Food & Beverages Options</h2>
+        <div class="vendor-grid">
+            <div class="vendor-item">
+                <img src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Concert Bites">
+                <div class="details">
+                    <h3>Concert Bites</h3>
+                    <p>Delicious finger foods and snacks perfect for concerts.</p>
+                    <div class="rating">Rating: 4.5/5</div>
+                    <div class="price">₹2500</div>
+                    <a href="#" class="btn-learn-more">Learn More</a>
+                </div>
+            </div>
+            <div class="vendor-item">
+                <img src="https://images.unsplash.com/photo-1555396273-367ea4eb4db5?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Beverage Bar">
+                <div class="details">
+                    <h3>Beverage Bar</h3>
+                    <p>Specialty drinks and cocktails for your event.</p>
+                    <div class="rating">Rating: 4.2/5</div>
+                    <div class="price">₹3000</div>
+                    <a href="#" class="btn-learn-more">Learn More</a>
+                </div>
+            </div>
+            <div class="vendor-item">
+                <img src="https://images.unsplash.com/photo-1515003197210-e0cd71810b5f?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Gourmet Food Trucks">
+                <div class="details">
+                    <h3>Gourmet Food Trucks</h3>
+                    <p>Mobile food options with diverse cuisines.</p>
+                    <div class="rating">Rating: 4.7/5</div>
+                    <div class="price">₹4000</div>
+                    <a href="#" class="btn-learn-more">Learn More</a>
+                </div>
+            </div>
+            <div class="vendor-item">
+                <img src="https://images.unsplash.com/photo-1551024506-0bccd828d307?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="VIP Lounge Catering">
+                <div class="details">
+                    <h3>VIP Lounge Catering</h3>
+                    <p>Premium dining experience for VIP guests.</p>
+                    <div class="rating">Rating: 4.8/5</div>
+                    <div class="price">₹6000</div>
+                    <a href="#" class="btn-learn-more">Learn More</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Lighting & Decorations Options -->
+    <div class="vendor-category" id="lighting">
+        <h2>Lighting & Decorations</h2>
+        <div class="vendor-grid">
+            <div class="vendor-item">
+                <img src="https://images.unsplash.com/photo-1511578314322-379afb476865?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Neon Dreams">
+                <div class="details">
+                    <h3>Neon Dreams</h3>
+                    <p>Vibrant LED lighting and stage effects.</p>
+                    <div class="rating">Rating: 4.7/5</div>
+                    <div class="price">₹8000</div>
+                    <a href="#" class="btn-learn-more">Learn More</a>
+                </div>
+            </div>
+            <div class="vendor-item">
+                <img src="https://images.unsplash.com/photo-1501281668745-f7f57925c3b4?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Laser Spectacle">
+                <div class="details">
+                    <h3>Laser Spectacle</h3>
+                    <p>Professional laser light shows.</p>
+                    <div class="rating">Rating: 4.9/5</div>
+                    <div class="price">₹12000</div>
+                    <a href="#" class="btn-learn-more">Learn More</a>
+                </div>
+            </div>
+            <div class="vendor-item">
+                <img src="https://images.unsplash.com/photo-1508700115892-45ecd05ae2ad?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="StageFX">
+                <div class="details">
+                    <h3>StageFX</h3>
+                    <p>Complete stage lighting solutions.</p>
+                    <div class="rating">Rating: 4.6/5</div>
+                    <div class="price">₹10000</div>
+                    <a href="#" class="btn-learn-more">Learn More</a>
+                </div>
+            </div>
+            <div class="vendor-item">
+                <img src="https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Pyro Masters">
+                <div class="details">
+                    <h3>Pyro Masters</h3>
+                    <p>Fireworks and pyrotechnics for concerts.</p>
+                    <div class="rating">Rating: 4.8/5</div>
+                    <div class="price">₹15000</div>
+                    <a href="#" class="btn-learn-more">Learn More</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- DJ Options -->
+    <div class="vendor-category" id="dj">
+        <h2>DJ Options</h2>
+        <div class="vendor-grid">
+            <div class="vendor-item">
+                <img src="https://images.unsplash.com/photo-1470225620780-dba8ba36b745?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="DJ Pulse">
+                <div class="details">
+                    <h3>DJ Pulse</h3>
+                    <p>High-energy electronic dance music.</p>
+                    <div class="rating">Rating: 4.8/5</div>
+                    <div class="price">₹10000</div>
+                    <a href="#" class="btn-learn-more">Learn More</a>
+                </div>
+            </div>
+            <div class="vendor-item">
+                <img src="https://images.unsplash.com/photo-1496293455970-f8581aae0e3b?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Mix Master">
+                <div class="details">
+                    <h3>Mix Master</h3>
+                    <p>Versatile DJ for all music genres.</p>
+                    <div class="rating">Rating: 3/5</div>
+                    <div class="price">₹8000</div>
+                    <a href="#" class="btn-learn-more">Learn More</a>
+                </div>
+            </div>
+            <div class="vendor-item">
+                <img src="https://images.unsplash.com/photo-1501612780327-45045538702b?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Bass Drop">
+                <div class="details">
+                    <h3>Bass Drop</h3>
+                    <p>Specializing in hip-hop and R&B.</p>
+                    <div class="rating">Rating: 4.9/5</div>
+                    <div class="price">₹12000</div>
+                    <a href="#" class="btn-learn-more">Learn More</a>
+                </div>
+            </div>
+            <div class="vendor-item">
+                <img src="https://images.unsplash.com/photo-1470225620780-dba8ba36b745?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Vinyl Vibe">
+                <div class="details">
+                    <h3>Vinyl Vibe</h3>
+                    <p>Old school vinyl DJ experience.</p>
+                    <div class="rating">Rating: 4.5/5</div>
+                    <div class="price">₹7000</div>
+                    <a href="#" class="btn-learn-more">Learn More</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Venue Options -->
+    <div class="vendor-category" id="venues">
+        <h2>Venue Options</h2>
+        <div class="vendor-grid">
+            <div class="vendor-item">
+                <img src="https://images.unsplash.com/photo-1470229722913-7c0e2dbbafd3?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="The Grand Arena">
+                <div class="details">
+                    <h3>The Grand Arena</h3>
+                    <p>Massive outdoor concert venue.</p>
+                    <div class="rating">Rating: 4.7/5</div>
+                    <div class="price">₹20000</div>
+                    <a href="#" class="btn-learn-more">Learn More</a>
+                </div>
+            </div>
+            <div class="vendor-item">
+                <img src="conc1.jpg" alt="Indie Air">
+                <div class="details">
+                    <h3>Indie Air</h3>
+                    <p>Smaller venue for acoustic performances.</p>
+                    <div class="rating">Rating: 4.4/5</div>
+                    <div class="price">₹8000</div>
+                    <a href="#" class="btn-learn-more">Learn More</a>
+                </div>
+            </div>
+            <div class="vendor-item">
+                <img src="https://images.unsplash.com/photo-1540039155733-5bb30b53aa14?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Rooftop Beats">
+                <div class="details">
+                    <h3>Rooftop Beats</h3>
+                    <p>Open-air rooftop venue with city views.</p>
+                    <div class="rating">Rating: 4.8/5</div>
+                    <div class="price">₹15000</div>
+                    <a href="#" class="btn-learn-more">Learn More</a>
+                </div>
+            </div>
+            <div class="vendor-item">
+                <img src="https://images.unsplash.com/photo-1470229722913-7c0e2dbbafd3?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Underground Club">
+                <div class="details">
+                    <h3>Underground Club</h3>
+                    <p>Intimate space for indie artists.</p>
+                    <div class="rating">Rating: 4.6/5</div>
+                    <div class="price">₹10000</div>
+                    <a href="#" class="btn-learn-more">Learn More</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<footer>
+    <p>&copy; 2023 Concert Planning. All rights reserved.</p>
+</footer>
+
+<script>
+    // Price slider functionality
+    const priceSlider = document.getElementById('price');
+    const priceValue = document.getElementById('priceValue');
+    const categoryFilter = document.getElementById('category');
+    const ratingFilter = document.getElementById('rating');
+    
+    // Update price display when slider moves
+    priceSlider.addEventListener('input', function() {
+        priceValue.textContent = '₹' + this.value;
+        filterVendors();
+    });
+    
+    // Filter vendors when category changes
+    categoryFilter.addEventListener('change', filterVendors);
+    
+    // Filter vendors when rating changes
+    ratingFilter.addEventListener('change', filterVendors);
+    
+    // Function to filter vendors based on selected criteria
+    function filterVendors() {
+        const maxPrice = parseInt(priceSlider.value);
+        const selectedCategory = categoryFilter.value;
+        const minRating = parseInt(ratingFilter.value);
+        const vendorCategories = document.querySelectorAll('.vendor-category');
+        
+        vendorCategories.forEach(category => {
+            const categoryId = category.id;
+            
+            // Show/hide entire category based on selection
+            if (selectedCategory === 'all' || selectedCategory === categoryId) {
+                category.style.display = 'block';
+                
+                // Filter items within this category
+                const vendorItems = category.querySelectorAll('.vendor-item');
+                vendorItems.forEach(item => {
+                    const priceElement = item.querySelector('.price');
+                    const ratingElement = item.querySelector('.rating');
+                    
+                    if (priceElement && ratingElement) {
+                        const price = parseInt(priceElement.textContent.replace('₹', ''));
+                        const ratingText = ratingElement.textContent;
+                        const ratingMatch = ratingText.match(/(\d+\.?\d*)/);
+                        const rating = ratingMatch ? parseFloat(ratingMatch[0]) : 0;
+                        
+                        // Show items where price <= maxPrice AND rating >= minRating
+                        if (price <= maxPrice && rating >= minRating) {
+                            item.style.display = 'flex';
+                        } else {
+                            item.style.display = 'none';
+                        }
+                    }
+                });
+            } else {
+                category.style.display = 'none';
+            }
+        });
+    }
+    
+    // Initial filter on page load
+    filterVendors();
+</script>
+
+</body>
+</html>
