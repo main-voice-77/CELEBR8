@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Book The Event Feast</title>
+  <style>
+    body {
+      font-family: 'Lucida Sans', sans-serif;
+      background-color: #F8F8F8;
+      color: #282828;
+      margin: 0;
+      padding: 0;
+    }
+    header {
+      background-color: #282828;
+      color: #E8E8E8;
+      padding: 20px;
+      text-align: center;
+    }
+    header h1 {
+      font-style: italic;
+    }
+    section {
+      max-width: 700px;
+      margin: auto;
+      padding: 30px;
+      background: #E8E8E8;
+      border-radius: 10px;
+      margin-top: 30px;
+      box-shadow: 0 4px 10px rgba(40, 40, 40, 0.1);
+    }
+    form {
+      display: flex;
+      flex-direction: column;
+    }
+    label {
+      margin-top: 15px;
+      font-style: italic;
+    }
+    input, textarea, select {
+      padding: 10px;
+      margin-top: 5px;
+      border: 1px solid #898989;
+      border-radius: 5px;
+      background-color: #F8F8F8;
+      font-style: italic;
+    }
+    .checkbox-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    .checkbox-group label {
+      font-weight: normal;
+      margin: 5px 0;
+    }
+    button {
+      margin-top: 25px;
+      padding: 12px;
+      background-color: #898989;
+      color: #F8F8F8;
+      border: none;
+      border-radius: 5px;
+      font-size: 1.1em;
+      font-style: italic;
+      cursor: pointer;
+    }
+    .summary {
+      background-color: #F8F8F8;
+      padding: 15px;
+      margin-top: 25px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      font-style: italic;
+    }
+    footer {
+      text-align: center;
+      background-color: #282828;
+      color: #E8E8E8;
+      padding: 10px;
+      font-style: italic;
+      margin-top: 40px;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>Book The Event Feast</h1>
+  <p>Let’s make your event deliciously unforgettable!</p>
+</header>
+
+<section>
+  <form oninput="calculatePrice()" action="#" method="post">
+    <label for="guests">Number of Guests:</label>
+    <input type="number" id="guests" name="guests" required min="1"/>
+
+    <label for="venue">Venue Address:</label>
+    <textarea id="venue" name="venue" rows="3" required></textarea>
+
+    <label for="theme">Decoration Theme (Optional):</label>
+    <input type="text" id="theme" name="theme" />
+
+    <label>Food Items:</label>
+    <div class="checkbox-group">
+      <label><input type="checkbox" name="food[]" value="Biryani"> Biryani</label>
+      <label><input type="checkbox" name="food[]" value="Paneer Tikka"> Paneer Tikka</label>
+      <label><input type="checkbox" name="food[]" value="Butter Naan"> Butter Naan</label>
+      <label><input type="checkbox" name="food[]" value="Gulab Jamun"> Gulab Jamun</label>
+      <label><input type="checkbox" name="food[]" value="Salad"> Salad</label>
+      <label><input type="checkbox" name="food[]" value="Sweets"> Sweets</label>
+    </div>
+
+    <label for="allergies">Allergy Info (if any):</label>
+    <textarea id="allergies" name="allergies" rows="2"></textarea>
+
+    <label for="total">Total Price (₹):</label>
+    <input type="text" id="total" name="total" readonly required />
+
+    <div class="summary">
+      <p><strong>Advance to Pay (30%): ₹<span id="advance">0</span></strong></p>
+    </div>
+
+    <button type="submit">Confirm Booking</button>
+    <button type="button" onclick="payNow()">Pay Now</button>
+  </form>
+</section>
+
+<footer>
+  <p>&copy; 2023 CELEB8 - The Event Feast. All rights reserved.</p>
+</footer>
+
+<script>
+  function calculatePrice() {
+    const guests = parseInt(document.getElementById("guests").value) || 0;
+    const total = guests * 2500;
+    const advance = Math.floor(total * 0.3);
+    document.getElementById("total").value = total;
+    document.getElementById("advance").textContent = advance;
+  }
+
+  function payNow() {
+  window.location.href = "payment_gateway.html";
+}
+
+</script>
+
+</body>
+</html>
