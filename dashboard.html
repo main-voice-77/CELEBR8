@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Celebr8 - Dashboard</title>
+  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600&display=swap" rel="stylesheet">
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #000;
+      color: white;
+    }
+
+    nav {
+      width: 100%;
+      background-color: #111;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px 40px;
+      box-sizing: border-box;
+      z-index: 10;
+      position: sticky;
+      top: 0;
+    }
+
+    .logo {
+      font-size: 28px;
+      font-weight: bold;
+    }
+
+    .nav-right ul {
+      list-style: none;
+      display: flex;
+      gap: 25px;
+      margin: 0;
+      padding: 0;
+    }
+
+    .nav-right a {
+      color: white;
+      font-size: 16px;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    .nav-right a:hover {
+      color: #ffcc00;
+    }
+
+    .dashboard-container {
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      min-height: 100vh;
+      background-image: url('db.jpeg');
+      background-repeat: no-repeat;
+      background-position: center 100px;
+      background-size: contain;
+      background-attachment: fixed;
+      background-color: #000;
+      padding: 60px 0;
+    }
+
+    .dashboard-content {
+      background-color: rgba(0, 0, 0, 0.6);
+      padding: 40px 20px;
+      width: 80vw;
+      max-width: 1200px;
+      box-sizing: border-box;
+      border-radius: 15px;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.7);
+    }
+
+    .vendor-name {
+      text-align: center;
+      font-size: 48px;
+      font-weight: 600;
+      font-family: 'Dancing Script', cursive;
+      margin-bottom: 40px;
+      color: #fff;
+      text-shadow: 2px 2px 8px rgba(0,0,0,0.7);
+    }
+
+    h2 {
+      font-size: 28px;
+      margin-bottom: 10px;
+      border-bottom: 2px solid #ffcc00;
+      display: inline-block;
+      padding-bottom: 5px;
+    }
+
+    .section {
+      margin-bottom: 40px;
+    }
+
+    .section p {
+      font-size: 22px;
+      line-height: 1.8;
+      font-weight: 500;
+      background-color: rgba(0, 0, 0, 0.5);
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+      color: #fff;
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <div class="logo">Celebr8</div>
+    <div class="nav-right">
+      <ul>
+        <li><a href="vendorhmp.html">Home</a></li>
+        <li><a href="dashboard.html">Dashboard</a></li>
+        <li><a href="orders.html">My Orders</a></li>
+        <li><a href="ratings.html">Customer Ratings</a></li>
+        <li><a href="vendorlogin.html">Logout</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <div class="dashboard-container">
+    <div class="dashboard-content">
+      <div class="vendor-name" id="vendorNameDisplay">Welcome!</div>
+
+      <div class="section">
+        <h2>Live Notifications</h2>
+        <p>
+          🎉 New booking received from a client for April 14th wedding event.<br>
+          🔄 Portfolio viewed 27 times in the last 24 hours.<br>
+          📝 A customer has requested a callback to discuss menu customization.<br>
+          ✅ Payment received from booking #CEB202504.
+        </p>
+      </div>
+
+      <div class="section">
+        <h2>Update Portfolio</h2>
+        <p>
+          ✔️ Last updated on April 8, 2025.<br>
+          📷 Added 3 new images from the “Golden Jubilee” catering event.<br>
+          ✍️ Edited service descriptions to include “Vegan Buffet Option”.<br>
+          📁 Uploaded new PDF brochure (Spring Menu 2025).
+        </p>
+      </div>
+
+      <div class="section">
+        <h2>Update Availability</h2>
+        <p>
+          🗓️ April 12 – Booked (Engagement)<br>
+          🗓️ April 13 – Available<br>
+          🗓️ April 14 – Booked (Wedding Banquet)<br>
+          🗓️ April 15 – Available<br>
+          💡 Tip: Update your calendar weekly to receive more accurate booking leads.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const vendorName = localStorage.getItem('vendorName');
+    const vendorNameDisplay = document.getElementById('vendorNameDisplay');
+    if (vendorName) {
+      vendorNameDisplay.textContent = `${vendorName}'s Dashboard`;
+    }
+  </script>
+
+</body>
+</html>
