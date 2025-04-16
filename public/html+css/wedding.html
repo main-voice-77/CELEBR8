@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wedding Planning</title>
+    <style>
+        body {
+            font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+            background-color: #F8F8F8;
+            margin: 0;
+            padding: 0;
+            color: #282828;
+        }
+        header {
+            background-color: #282828;
+            color: #E8E8E8;
+            text-align: center;
+            padding: 20px;
+        }
+        header h1 {
+            font-size: 2.5em;
+            font-style: italic;
+        }
+        section {
+            padding: 20px;
+            padding-bottom: 60px;
+        }
+        .filters {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+        .filter-group {
+            margin: 5px;
+            min-width: 200px;
+        }
+        .filters select, .filters input {
+            padding: 10px;
+            margin: 5px 0;
+            border-radius: 5px;
+            border: 1px solid #898989;
+            font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+            font-style: italic;
+            background-color: #F8F8F8;
+        }
+        .price-slider-container {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .price-slider {
+            flex-grow: 1;
+        }
+        .vendor-category {
+            margin-bottom: 40px;
+        }
+        .vendor-category h2 {
+            text-align: center;
+            font-style: italic;
+            color: #282828;
+        }
+        .vendor-grid {
+            display: flex;
+            flex-wrap: nowrap;
+            gap: 20px;
+            overflow-x: auto;
+        }
+        .vendor-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background-color: #E8E8E8;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(40, 40, 40, 0.163);
+            width: calc(25% - 20px);
+            flex-shrink: 0;
+        }
+        .vendor-item img {
+            width: 200px;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 8px;
+        }
+        .vendor-item .details {
+            text-align: center;
+            margin-top: 10px;
+        }
+        .vendor-item .details h3 {
+            font-size: 1.5em;
+            margin: 10px 0;
+            font-style: italic;
+            color: #282828;
+        }
+        .vendor-item .details p {
+            font-size: 1.1em;
+            margin: 5px 0;
+            font-style: italic;
+            color: #898989;
+        }
+        .vendor-item .details .rating {
+            font-size: 1em;
+            color: #898989;
+            font-style: italic;
+        }
+        .vendor-item .price {
+            font-size: 1.2em;
+            font-weight: bold;
+            color: #282828;
+            margin: 10px 0;
+            font-style: italic;
+        }
+        .vendor-item .btn-learn-more {
+            padding: 10px 15px;
+            background-color: #898989;
+            color: #F8F8F8;
+            text-decoration: none;
+            border-radius: 5px;
+            text-align: center;
+            display: inline-block;
+            font-style: italic;
+        }
+        footer {
+            text-align: center;
+            background-color: #282828;
+            color: #E8E8E8;
+            padding: 10px;
+            position: fixed;
+            width: 100%;
+            bottom: 0;
+            font-style: italic;
+        }
+        #priceValue {
+            color: #282828;
+            font-weight: bold;
+            min-width: 80px;
+            display: inline-block;
+            text-align: right;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>Wedding Planning</h1>
+    <p>Find the best vendors for your wedding!</p>
+</header>
+
+<section>
+    <div class="filters">
+        <div class="filter-group">
+            <label for="category">Select Category:</label>
+            <select id="category">
+                <option value="all">All</option>
+                <option value="catering">Catering</option>
+                <option value="decorations">Decorations</option>
+                <option value="venues">Venues</option>
+                <option value="events">Events</option>
+                <option value="prewedding">Pre-Wedding photoshoot</option>
+                <option value="bachelorparty">Bachelor Party</option>
+            </select>
+        </div>
+        <div class="filter-group">
+            <label for="price">Max Price (₹):</label>
+            <div class="price-slider-container">
+                <input type="range" id="price" class="price-slider" min="0" max="50000" value="50000" step="1000" />
+                <span id="priceValue">₹50000</span>
+            </div>
+        </div>
+        <div class="filter-group">
+            <label for="rating">Min Rating:</label>
+            <select id="rating">
+                <option value="1">1 Star</option>
+                <option value="2">2 Stars</option>
+                <option value="3">3 Stars</option>
+                <option value="4">4 Stars</option>
+                <option value="5">5 Stars</option>
+            </select>
+        </div>
+    </div>
+    
+    <!-- Catering Options -->
+    <div class="vendor-category" id="catering">
+        <h2>Catering Options</h2>
+        <div class="vendor-grid">
+            <div class="vendor-item">
+                <img src="wed1.jpg" alt="The Event Feast">
+                <div class="details">
+                    <h3>The Event Feast</h3>
+                    <p>Offers a wide variety of foods for your wedding, from appetizers to full meals.</p>
+                    <div class="rating">Rating: 4.8/5</div>
+                    <div class="price">₹2500</div>
+                    <a href="wed1.html" class="btn-learn-more">Learn More</a>
+                </div>
+            </div>
+            <div class="vendor-item">
+                <img src="wed2.jpg" alt="Feasts Catering">
+                <div class="details">
+                    <h3>Feasts catering</h3>
+                    <p>Specializes in gourmet meals for elegant weddings.</p>
+                    <div class="rating">Rating: 4.2/5</div>
+                    <div class="price">₹3000</div>
+                    <a href="wed2.html" class="btn-learn-more">Learn More</a>
+                </div>
+            </div>
+            <div class="vendor-item">
+                <img src="wed3.jpg" alt="Sweetheart Delights">
+                <div class="details">
+                    <h3>Sweetheart Delights</h3>
+                    <p>Delicious desserts and sweets for your wedding.</p>
+                    <div class="rating">Rating: 3.9/5</div>
+                    <div class="price">₹2500</div>
+                    <a href="wed3.html" class="btn-learn-more">Learn More</a>
+                </div>
+            </div>
+            <div class="vendor-item">
+                <img src="wed4.jpg" alt="telugu Bites">
+                <div class="details">
+                    <h3>telugu Bites</h3>
+                    <p>Healthy and organic food options for your wedding.</p>
+                    <div class="rating">Rating: 4.6/5</div>
+                    <div class="price">₹5000</div>
+                    <a href="wed4.html" class="btn-learn-more">Learn More</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Venue Options -->
+    <div class="vendor-category" id="venues">
+        <h2>Venue Options</h2>
+        <div class="vendor-grid">
+            <div class="vendor-item">
+                <img src="wed5.jpg" alt="Eternal Ballroom">
+                <div class="details">
+                    <h3>Eternal Ballroom</h3>
+                    <p>A spacious and elegant venue for wedding and reception</p>
+                    <div class="rating">Rating: 4.7/5</div>
+                    <div class="price">₹8000</div>
+                    <a href="wed5.html" class="btn-learn-more">Learn More</a>
+                </div>
+            </div>
+            <div class="vendor-item">
+                <img src="wed6.jpg" alt="Garden age">
+                <div class="details">
+                    <h3>Garden age</h3>
+                    <p>A beautiful outdoor venue perfect for weddings</p>
+                    <div class="rating">Rating: 3.9/5</div>
+                    <div class="price">₹3000</div>
+                    <a href="wed6.html" class="btn-learn-more">Learn More</a>
+                </div>
+            </div>
+            <div class="vendor-item">
+                <img src="wed7.jpg" alt="Pavilion wedding venues">
+                <div class="details">
+                    <h3>Pavilion wedding venues</h3>
+                    <p>A luxurious indoor venue with modern amenities.</p>
+                    <div class="rating">Rating: 5/5</div>
+                    <div class="price">₹10000</div>
+                    <a href="wed7.html" class="btn-learn-more">Learn More</a>
+                </div>
+            </div>
+            <div class="vendor-item">
+                <img src="wed8.jpg" alt="The Sapphire Pavilion">
+                <div class="details">
+                    <h3>The Sapphire Pavilion</h3>
+                    <p>A stunning venue for unforgettable weddings.</p>
+                    <div class="rating">Rating: 4.2/5</div>
+                    <div class="price">₹4000</div>
+                    <a href="wed8.html" class="btn-learn-more">Learn More</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Decoration Options -->
+    <div class="vendor-category" id="decorations">
+        <h2>Decoration Options</h2>
+        <div class="vendor-grid">
+            <div class="vendor-item">
+                <img src="wed9.jpg" alt="Enchanted Elegance decors">
+                <div class="details">
+                    <h3>Enchanted Elegance decors</h3>
+                    <p>Classic and elegant decorations for any kind of wedding.</p>
+                    <div class="rating">Rating: 4.5/5</div>
+                    <div class="price">₹2000</div>
+                    <a href="wed9.html" class="btn-learn-more">Learn More</a>
+                </div>
+            </div>
+            <div class="vendor-item">
+                <img src="wed10.jpg" alt="Modern weddings">
+                <div class="details">
+                    <h3>Modern weddings</h3>
+                    <p>Contemporary and stylish decoration themes.</p>
+                    <div class="rating">Rating: 4.6/5</div>
+                    <div class="price">₹3000</div>
+                    <a href="wed10.html" class="btn-learn-more">Learn More</a>
+                </div>
+            </div>
+            <div class="vendor-item">
+                <img src="wed11.jpg" alt="Rustic Romcom decors">
+                <div class="details">
+                    <h3>Rustic Romcom decors</h3>
+                    <p>Rustic and vintage-themed decorations.</p>
+                    <div class="rating">Rating: 3.7/5</div>
+                    <div class="price">₹1800</div>
+                    <a href="wed11.html" class="btn-learn-more">Learn More</a>
+                </div>
+            </div>
+            <div class="vendor-item">
+                <img src="wed12.jpg" alt="Twinkling Lights decorators">
+                <div class="details">
+                    <h3>Twinkling Lights decorators</h3>
+                    <p>Bright and colorful lighting decorations.</p>
+                    <div class="rating">Rating: 4.8/5</div>
+                    <div class="price">₹3000</div>
+                    <a href="wed12.html" class="btn-learn-more">Learn More</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Event Options -->
+    <div class="vendor-category" id="events">
+        <h2>Event Options</h2>
+        <div class="vendor-grid">
+            <div class="vendor-item">
+                <img src="wed13.jpg" alt="Magic Show 1">
+                <div class="details">
+                    <h3>dance academy</h3>
+                    <p>Dancing your own way!</p>
+                    <div class="rating">Rating: 4.8/5</div>
+                    <div class="price">₹4000</div>
+                    <a href="wed13.html" class="btn-learn-more">Learn More</a>
+                </div>
+            </div>
+            <div class="vendor-item">
+                <img src="wed14.jpg" alt="Magic Show 2">
+                <div class="details">
+                    <h3>Enchanted Illusions performers</h3>
+                    <p>Enchanted Illusions, The magic of your special day</p>
+                    <div class="rating">Rating: 4.9/5</div>
+                    <div class="price">₹4500</div>
+                    <a href="wed14.html" class="btn-learn-more">Learn More</a>
+                </div>
+            </div>
+            <div class="vendor-item">
+                <img src="wed15.jpg" alt="Music Event">
+                <div class="details">
+                    <h3>Serenade Soirée</h3>
+                    <p>Live music performance to make your wedding unforgettable.</p>
+                    <div class="rating">Rating: 4.7/5</div>
+                    <div class="price">₹4000</div>
+                    <a href="wed15.html" class="btn-learn-more">Learn More</a>
+                </div>
+            </div>
+            <div class="vendor-item">
+                <img src="wed16.jpg" alt="Clown Performance">
+                <div class="details">
+                    <h3>Music event</h3>
+                    <p>Fun and entertaining singer.</p>
+                    <div class="rating">Rating: 4.6/5</div>
+                    <div class="price">₹3000</div>
+                    <a href="wed16.html" class="btn-learn-more">Learn More</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Pre-Wedding photoshoot Options -->
+    <div class="vendor-category" id="prewedding">
+        <h2>Pre-Wedding Photoshoot Options</h2>
+        <div class="vendor-grid">
+            <div class="vendor-item">
+                <img src="wed17.jpeg" alt="SnapSoul Stories">
+                <div class="details">
+                    <h3>SnapSoul Stories</h3>
+                    <p>Capturing the soul of your love story..</p>
+                    <div class="rating">Rating: 4.5/5</div>
+                    <div class="price">₹5000</div>
+                    <a href="wed17.html" class="btn-learn-more">Learn More</a>
+                </div>
+            </div>
+            <div class="vendor-item">
+                <img src="wed18.jpeg" alt="ForeverFrame Studio">
+                <div class="details">
+                    <h3>ForeverFrame Studio</h3>
+                    <p>Because every love deserves a timeless frame.</p>
+                    <div class="rating">Rating: 4.2/5</div>
+                    <div class="price">₹3000</div>
+                    <a href="wed18.html" class="btn-learn-more">Learn More</a>
+                </div>
+            </div>
+            <div class="vendor-item">
+                <img src="wed19.jpeg" alt="The PreWed Palette">
+                <div class="details">
+                    <h3>The PreWed Palette</h3>
+                    <p>Painting memories before the 'I do'.</p>
+                    <div class="rating">Rating: 4.8/5</div>
+                    <div class="price">₹6000</div>
+                    <a href="wed19.html" class="btn-learn-more">Learn More</a>
+                </div>
+            </div>
+            <div class="vendor-item">
+                <img src="wed20.jpeg" alt="Wedding Frames">
+                <div class="details">
+                    <h3>Wedding Frames</h3>
+                    <p>Where culture meets candid.</p>
+                    <div class="rating">Rating: 4.5/5</div>
+                    <div class="price">₹4500</div>
+                    <a href="wed20.html" class="btn-learn-more">Learn More</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bachelor Party Options -->
+    <div class="vendor-category" id="bachelorparty">
+        <h2>Bachelor Party Options</h2>
+        <div class="vendor-grid">
+            <div class="vendor-item">
+                <img src="wed21.jpeg" alt="Stag Saga Events">
+                <div class="details">
+                    <h3>Stag Saga Events</h3>
+                    <p>Where legends party before they tie the knot.</p>
+                    <div class="rating">Rating: 4.5/5</div>
+                    <div class="price">₹6000</div>
+                    <a href="wed21.html" class="btn-learn-more">Learn More</a>
+                </div>
+            </div>
+            <div class="vendor-item">
+                <img src="wed22.jpeg" alt="Elite Stag Nights">
+                <div class="details">
+                    <h3>Elite Stag Nights</h3>
+                    <p>Bachelor parties redefined with class.</p>
+                    <div class="rating">Rating: 4.9/5</div>
+                    <div class="price">₹8000</div>
+                    <a href="wed22.html" class="btn-learn-more">Learn More</a>
+                </div>
+            </div>
+            <div class="vendor-item">
+                <img src="wed23.jpeg" alt="Final Toast Events">
+                <div class="details">
+                    <h3>Final Toast Events</h3>
+                    <p>A classy farewell to singlehood.</p>
+                    <div class="rating">Rating: 3.8/5</div>
+                    <div class="price">₹4000</div>
+                    <a href="wed23.html" class="btn-learn-more">Learn More</a>
+                </div>
+            </div>
+            <div class="vendor-item">
+                <img src="wed24.jpeg" alt="Brew & Bash">
+                <div class="details">
+                    <h3>Brew & Bash</h3>
+                    <p>Pre-wedding vibes, premium bachelor tribes.</p>
+                    <div class="rating">Rating: 4.2/5</div>
+                    <div class="price">₹5000</div>
+                    <a href="wed24.html" class="btn-learn-more">Learn More</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<footer>
+    <p>&copy; 2023 Wedding Planning. All rights reserved.</p>
+</footer>
+
+<script>
+    // Price slider functionality
+    const priceSlider = document.getElementById('price');
+    const priceValue = document.getElementById('priceValue');
+    const categoryFilter = document.getElementById('category');
+    const ratingFilter = document.getElementById('rating');
+    
+    // Update price display when slider moves
+    priceSlider.addEventListener('input', function() {
+        priceValue.textContent = '₹' + this.value;
+        filterVendors();
+    });
+    
+    // Filter vendors when category changes
+    categoryFilter.addEventListener('change', filterVendors);
+    
+    // Filter vendors when rating changes
+    ratingFilter.addEventListener('change', filterVendors);
+    
+    // Function to filter vendors based on selected criteria
+    function filterVendors() {
+        const maxPrice = parseInt(priceSlider.value);
+        const selectedCategory = categoryFilter.value;
+        const minRating = parseInt(ratingFilter.value);
+        const vendorCategories = document.querySelectorAll('.vendor-category');
+        
+        vendorCategories.forEach(category => {
+            const categoryId = category.id;
+            
+            // Show/hide entire category based on selection
+            if (selectedCategory === 'all' || selectedCategory === categoryId) {
+                category.style.display = 'block';
+                
+                // Filter items within this category
+                const vendorItems = category.querySelectorAll('.vendor-item');
+                vendorItems.forEach(item => {
+                    const priceElement = item.querySelector('.price');
+                    const ratingElement = item.querySelector('.rating');
+                    
+                    if (priceElement && ratingElement) {
+                        const price = parseInt(priceElement.textContent.replace('₹', ''));
+                        const ratingText = ratingElement.textContent;
+                        const ratingMatch = ratingText.match(/(\d+\.?\d*)/);
+                        const rating = ratingMatch ? parseFloat(ratingMatch[0]) : 0;
+                        
+                        // Show items where price <= maxPrice AND rating >= minRating
+                        if (price <= maxPrice && rating >= minRating) {
+                            item.style.display = 'flex';
+                        } else {
+                            item.style.display = 'none';
+                        }
+                    }
+                });
+            } else {
+                category.style.display = 'none';
+            }
+        });
+    }
+    
+    // Initial filter on page load
+    filterVendors();
+</script>
+
+</body>
+</html>

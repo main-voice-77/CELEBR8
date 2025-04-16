@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Celebr8 - Vendor Login</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Montserrat', sans-serif;
+      background-color: #EDEAE4;
+      height: 100vh;
+      display: flex;
+    }
+    .left {
+      width: 60%;
+      height: 100%;
+    }
+    .left img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .right {
+      width: 40%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 2rem;
+      background-color: #F9F8F7;
+    }
+    .container {
+      background: rgba(173, 184, 187, 0.15);
+      padding: 50px;
+      border-radius: 16px;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.08);
+      width: 100%;
+      max-width: 500px;
+      text-align: center;
+    }
+    .container h1 {
+      font-size: 32px;
+      color: #153147;
+      margin-bottom: 30px;
+      font-family: 'Playfair Display', serif;
+    }
+    .form-group {
+      text-align: left;
+      margin-bottom: 25px;
+    }
+    .form-group label {
+      display: block;
+      margin-bottom: 10px;
+      font-size: 18px;
+      font-weight: bold;
+      color: #232A2F;
+    }
+    .form-group input {
+      width: 100%;
+      padding: 20px;
+      font-size: 20px;
+      border: 2px solid #ccc;
+      border-radius: 10px;
+      background-color: #ffffff;
+    }
+    .btn {
+      width: 100%;
+      padding: 16px;
+      font-size: 20px;
+      font-weight: bold;
+      color: white;
+      background-color: #232A2F;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      margin-top: 10px;
+      transition: background-color 0.3s ease, transform 0.3s ease;
+    }
+    .btn:hover {
+      background-color: #153147;
+      transform: scale(1.05);
+    }
+    .footer {
+      margin-top: 20px;
+      font-size: 20px;
+    }
+    .footer a {
+      margin: 0 10px;
+      text-decoration: none;
+      color: #6b5b95;
+    }
+    .footer a:hover {
+      color: #007bff;
+    }
+  </style>
+</head>
+<body>
+  <div class="left">
+    <img src="loginimage.jpeg" alt="Celebr8 Aesthetic">
+  </div>
+
+  <div class="right">
+    <div class="container">
+      <h1>Vendor Login</h1>
+
+      <form id="loginForm" onsubmit="return handleSubmit()">
+        <div class="form-group">
+          <label for="businessName">Business Name</label>
+          <input type="text" id="businessName" name="businessName" placeholder="Enter your business name" required>
+        </div>
+
+        <div class="form-group">
+          <label for="email">Email Address</label>
+          <input type="email" id="email" name="email" placeholder="Enter your email" required>
+        </div>
+
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input type="password" id="password" name="password" placeholder="Enter your password" required>
+        </div>
+
+        <button type="submit" class="btn">Submit</button>
+      </form>
+
+      <div class="footer">
+        <a href="forpass.html">Forgot Password?</a> | <a href="vendorsignup.html">Create Account</a>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function handleSubmit() {
+      const businessName = document.getElementById("businessName").value.trim();
+      const email = document.getElementById("email").value.trim();
+      const password = document.getElementById("password").value;
+
+      const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+      const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?#&^])[A-Za-z\d@$!%*?#&^]{8,}$/;
+
+      if (!emailRegex.test(email)) {
+        alert("Please enter a valid email address (e.g., example@gmail.com).");
+        return false;
+      }
+
+      if (!passwordRegex.test(password)) {
+        alert("Password must be at least 8 characters and include:\n- 1 uppercase letter\n- 1 lowercase letter\n- 1 number\n- 1 special character (@$!%*?#&^)");
+        return false;
+      }
+
+      // Save business name to localStorage and redirect
+      localStorage.setItem("vendorName", businessName);
+      window.location.href = "vendorhmp.html";
+      return false;
+    }
+  </script>
+</body>
+</html>

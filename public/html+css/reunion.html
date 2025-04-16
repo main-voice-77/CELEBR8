@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reunion</title>
+    <style>
+        body {
+            font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+            background-color: #F8F8F8; /* Light blue background */
+            margin: 0;
+            padding: 0;
+            color: #282828; /* Navy text color */
+        }
+        header {
+            background-color: #282828; /* Dark gray background */
+            color: #E8E8E8; /* Light gray text */
+            text-align: center;
+            padding: 20px;
+        }
+        header h1 {
+            font-size: 2.5em;
+            font-style: italic;
+        }
+        section {
+            padding: 20px;
+            padding-bottom: 60px; /* Add padding to prevent footer from covering content */
+        }
+        .filters {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+        .filters select, .filters input {
+            padding: 10px;
+            margin: 5px 0;
+            border-radius: 5px;
+            border: 1px solid #898989; /* Medium gray border */
+            font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+            font-style: italic;
+            background-color: #F8F8F8; /* Light gray background */
+        }
+        .vendor-category {
+            margin-bottom: 40px;
+        }
+        .vendor-category h2 {
+            text-align: center;
+            font-style: italic;
+            color: #282828; /* Navy text color */
+        }
+        .vendor-grid {
+            display: flex;
+            flex-wrap: nowrap; /* Prevent wrapping to ensure all items stay in one row */
+            gap: 20px; /* Space between the vendor items */
+            overflow-x: auto; /* Add horizontal scroll if needed */
+        }
+        .vendor-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background-color: #E8E8E8; /* Light gray background */
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(40, 40, 40, 0.163); /* Dark gray shadow */
+            width: calc(25% - 20px); /* Adjust width to fit four items in a row */
+            flex-shrink: 0; /* Prevent items from shrinking */
+        }
+        .vendor-item img {
+            width: 200px; /* Increased image size */
+            height: 200px; /* Increased image size */
+            object-fit: cover;
+            border-radius: 8px;
+        }
+        .vendor-item .details {
+            text-align: center;
+            margin-top: 10px;
+        }
+        .vendor-item .details h3 {
+            font-size: 1.5em;
+            margin: 10px 0;
+            font-style: italic;
+            color: #282828; /* Dark gray text color */
+        }
+        .vendor-item .details p {
+            font-size: 1.1em;
+            margin: 5px 0;
+            font-style: italic;
+            color: #898989; /* Medium gray text color */
+        }
+        .vendor-item .details .rating {
+            font-size: 1em;
+            color: #898989; /* Medium gray text color */
+            font-style: italic;
+        }
+        .vendor-item .price {
+            font-size: 1.2em;
+            font-weight: bold;
+            color: #282828; /* Dark gray for price */
+            margin: 10px 0;
+            font-style: italic;
+        }
+        .vendor-item .btn-learn-more {
+            padding: 10px 15px;
+            background-color: #898989; /* Medium gray background */
+            color: #F8F8F8; /* Light gray text */
+            text-decoration: none;
+            border-radius: 5px;
+            text-align: center;
+            display: inline-block;
+            font-style: italic;
+        }
+        footer {
+            text-align: center;
+            background-color: #282828; /* Dark gray background */
+            color: #E8E8E8; /* Light gray text */
+            padding: 10px;
+            position: fixed;
+            width: 100%;
+            bottom: 0;
+            font-style: italic;
+        }
+        #priceValue {
+            color: #282828; /* Dark gray text */
+            font-weight: bold;
+            min-width: 80px;
+            display: inline-block;
+            text-align: right;
+        }
+        .hidden {
+            display: none !important;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>Reunion Planning</h1>
+    <p>Find the best vendors for your reunion !</p>
+</header>
+
+<section>
+    <div class="filters">
+        <div>
+            <label for="category">Select Category:</label>
+            <select id="category">
+                <option value="all">All</option>
+                <option value="catering">Catering</option>
+                <option value="venues">Venues</option>
+                <option value="photography">Photography</option>
+                <option value="entertainment">Entertainment</option>
+            </select>
+        </div>
+        <div>
+            <label for="price">Max Price (₹):</label>
+            <input type="range" id="price" min="0" max="50000" value="50000" />
+            <span id="priceValue">₹50000</span>
+        </div>
+        <div>
+            <label for="rating">Min Rating:</label>
+            <select id="rating">
+                <option value="1">1 Star</option>
+                <option value="2">2 Stars</option>
+                <option value="3">3 Stars</option>
+                <option value="4">4 Stars</option>
+                <option value="5">5 Stars</option>
+            </select>
+        </div>
+    </div>
+    
+    <!-- Catering Options -->
+    <div class="vendor-category" id="catering">
+        <h2>Catering Options</h2>
+        <div class="vendor-grid">
+            <div class="vendor-item" data-category="catering" data-price="2500" data-rating="4.8">
+                <img src="r1.jpeg" alt="Reunion Bites">
+                <div class="details">
+                    <h3>Reunion Bites</h3>
+                    <p>Bringing back memories, one bite at a time.</p>
+                    <div class="rating">Rating: 4.8/5</div>
+                    <div class="price">₹2500</div>
+                    <a href="r1.html" class="btn-learn-more">Learn More</a>
+                </div>
+            </div>
+            <div class="vendor-item" data-category="catering" data-price="3000" data-rating="4.2">
+                <img src="r2.jpeg" alt="Taste of Togetherness">
+                <div class="details">
+                    <h3>Taste of Togetherness</h3>
+                    <p>Because great reunions start with great taste.</p>
+                    <div class="rating">Rating: 4.2/5</div>
+                    <div class="price">₹3000</div>
+                    <a href="r2.html" class="btn-learn-more">Learn More</a>
+                </div>
+            </div>
+            <div class="vendor-item" data-category="catering" data-price="2500" data-rating="3.9">
+                <img src="r3.jpeg" alt="The Reunion Platter">
+                <div class="details">
+                    <h3>The Reunion Platter</h3>
+                    <p>A plate full of memories and moments.</p>
+                    <div class="rating">Rating: 3.9/5</div>
+                    <div class="price">₹2500</div>
+                    <a href="r3.html" class="btn-learn-more">Learn More</a>
+                </div>
+            </div>
+            <div class="vendor-item" data-category="catering" data-price="5000" data-rating="4.6">
+                <img src="r4.jpeg" alt="Retro Flavors">
+                <div class="details">
+                    <h3>Retro Flavors</h3>
+                    <p>Old-school taste for old-time friends.</p>
+                    <div class="rating">Rating: 4.6/5</div>
+                    <div class="price">₹5000</div>
+                    <a href="r4.html" class="btn-learn-more">Learn More</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Venue Options -->
+    <div class="vendor-category" id="venues">
+        <h2>Venue Options</h2>
+        <div class="vendor-grid">
+            <div class="vendor-item" data-category="venues" data-price="5000" data-rating="4.7">
+                <img src="r5.jpeg" alt="The Memory Hall">
+                <div class="details">
+                    <h3>The Memory Hall</h3>
+                    <p>Where every corner whispers a story.</p>
+                    <div class="rating">Rating: 4.7/5</div>
+                    <div class="price">₹5000</div>
+                    <a href="r5.html" class="btn-learn-more">Learn More</a>
+                </div>
+            </div>
+            <div class="vendor-item" data-category="venues" data-price="4000" data-rating="4.5">
+                <img src="r6.jpeg" alt="Timeless Terrace">
+                <div class="details">
+                    <h3>Timeless Terrace</h3>
+                    <p>Moments fade, memories stay.</p>
+                    <div class="rating">Rating: 4.5/5</div>
+                    <div class="price">₹4000</div>
+                    <a href="r6.html" class="btn-learn-more">Learn More</a>
+                </div>
+            </div>
+            <div class="vendor-item" data-category="venues" data-price="8000" data-rating="5">
+                <img src="r7.jpeg" alt="BackTogether Banquets">
+                <div class="details">
+                    <h3>BackTogether Banquets</h3>
+                    <p>Where old friends find new memories.</p>
+                    <div class="rating">Rating: 5/5</div>
+                    <div class="price">₹8000</div>
+                    <a href="r7.html" class="btn-learn-more">Learn More</a>
+                </div>
+            </div>
+            <div class="vendor-item" data-category="venues" data-price="2000" data-rating="4.2">
+                <img src="r8.jpeg" alt="The Nostalgia Nook">
+                <div class="details">
+                    <h3>The Nostalgia Nook</h3>
+                    <p>A cozy corner for golden memories.</p>
+                    <div class="rating">Rating: 4.2/5</div>
+                    <div class="price">₹2000</div>
+                    <a href="r8.html" class="btn-learn-more">Learn More</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Photography Options -->
+    <div class="vendor-category" id="photography">
+        <h2>Photography Options</h2>
+        <div class="vendor-grid">
+            <div class="vendor-item" data-category="photography" data-price="2000" data-rating="4.5">
+                <img src="r9.jpeg" alt="Flashback Frames">
+                <div class="details">
+                    <h3>Flashback Frames</h3>
+                    <p>Capturing the moments that bring you back.</p>
+                    <div class="rating">Rating: 4.5/5</div>
+                    <div class="price">₹2000</div>
+                    <a href="r9.html" class="btn-learn-more">Learn More</a>
+                </div>
+            </div>
+            <div class="vendor-item" data-category="photography" data-price="3000" data-rating="4.6">
+                <img src="r10.jpeg" alt=" Reunion Clicks">
+                <div class="details">
+                    <h3>Reunion Clicks</h3>
+                    <p>napping smiles, one memory at a time.</p>
+                    <div class="rating">Rating: 4.6/5</div>
+                    <div class="price">₹3000</div>
+                    <a href="r10.html" class="btn-learn-more">Learn More</a>
+                </div>
+            </div>
+            <div class="vendor-item" data-category="photography" data-price="1800" data-rating="3.7">
+                <img src="r11.jpeg" alt="BackTogether Shots">
+                <div class="details">
+                    <h3>BackTogether Shots</h3>
+                    <p>Freezing the joy of reuniting hearts.</p>
+                    <div class="rating">Rating: 3.7/5</div>
+                    <div class="price">₹1800</div>
+                    <a href="r11.html" class="btn-learn-more">Learn More</a>
+                </div>
+            </div>
+            <div class="vendor-item" data-category="photography" data-price="3000" data-rating="4.8">
+                <img src="r12.jpeg" alt="Memory Reel Studio">
+                <div class="details">
+                    <h3>Memory Reel Studio</h3>
+                    <p>Rolling through the good times, again.</p>
+                    <div class="rating">Rating: 4.8/5</div>
+                    <div class="price">₹3000</div>
+                    <a href="r12.html" class="btn-learn-more">Learn More</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Entertainment Options -->
+    <div class="vendor-category" id="entertainment">
+        <h2>Entertainment Options</h2>
+        <div class="vendor-grid">
+            <div class="vendor-item" data-category="entertainment" data-price="4000" data-rating="4.8">
+                <img src="r13.jpeg" alt="Rewind Revelry">
+                <div class="details">
+                    <h3>Rewind Revelry</h3>
+                    <p>Retro games, themed quiz nights, karaoke, dance-offs</p>
+                    <div class="rating">Rating: 4.8/5</div>
+                    <div class="price">₹4000</div>
+                    <a href="r13.html" class="btn-learn-more">Learn More</a>
+                </div>
+            </div>
+            <div class="vendor-item" data-category="entertainment" data-price="4500" data-rating="4.9">
+                <img src="r14.jpeg" alt="Timeless Beats Entertainment">
+                <div class="details">
+                    <h3>Timeless Beats Entertainment</h3>
+                    <p>Live band or DJ, dance floor setup, old-school & new-age music</p>
+                    <div class="rating">Rating: 4.9/5</div>
+                    <div class="price">₹4500</div>
+                    <a href="r14.html" class="btn-learn-more">Learn More</a>
+                </div>
+            </div>
+            <div class="vendor-item" data-category="entertainment" data-price="4000" data-rating="4.7">
+                <img src="r15.jpeg" alt="BackInTime Bash Co.">
+                <div class="details">
+                    <h3>BackInTime Bash Co.</h3>
+                    <p>Ice-breaker games, couple dance, musical chairs, memory lane skits</p>
+                    <div class="rating">Rating: 4.7/5</div>
+                    <div class="price">₹4000</div>
+                    <a href="r15.html" class="btn-learn-more">Learn More</a>
+                </div>
+            </div>
+            <div class="vendor-item" data-category="entertainment" data-price="3000" data-rating="4.6">
+                <img src="r16.jpeg" alt="Epic Echoes Entertainment">
+                <div class="details">
+                    <h3>Epic Echoes Entertainment</h3>
+                    <p>Talent shows, mimicry rounds, game stalls, theme-based dance</p>
+                    <div class="rating">Rating: 4.6/5</div>
+                    <div class="price">₹3000</div>
+                    <a href="r16.html" class="btn-learn-more">Learn More</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+</section>
+
+<footer>
+    <p>&copy; 2023 Reunion Planning. All rights reserved.</p>
+</footer>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Get filter elements
+        const categoryFilter = document.getElementById('category');
+        const priceFilter = document.getElementById('price');
+        const priceValue = document.getElementById('priceValue');
+        const ratingFilter = document.getElementById('rating');
+        
+        // Update price display when slider changes
+        priceFilter.addEventListener('input', function() {
+            priceValue.textContent = '₹' + this.value;
+            filterVendors();
+        });
+        
+        // Filter vendors when category or rating changes
+        categoryFilter.addEventListener('change', filterVendors);
+        ratingFilter.addEventListener('change', filterVendors);
+        
+        // Initial filter
+        filterVendors();
+        
+        function filterVendors() {
+            const selectedCategory = categoryFilter.value;
+            const maxPrice = parseInt(priceFilter.value);
+            const minRating = parseFloat(ratingFilter.value);
+            
+            // Get all vendor items
+            const vendorItems = document.querySelectorAll('.vendor-item');
+            
+            vendorItems.forEach(item => {
+                const itemCategory = item.getAttribute('data-category');
+                const itemPrice = parseInt(item.getAttribute('data-price'));
+                const itemRating = parseFloat(item.getAttribute('data-rating'));
+                
+                // Check if item matches all filters
+                const matchesCategory = selectedCategory === 'all' || itemCategory === selectedCategory;
+                const matchesPrice = itemPrice <= maxPrice;
+                const matchesRating = itemRating >= minRating;
+                
+                if (matchesCategory && matchesPrice && matchesRating) {
+                    item.classList.remove('hidden');
+                } else {
+                    item.classList.add('hidden');
+                }
+            });
+            
+            // Hide empty category sections
+            document.querySelectorAll('.vendor-category').forEach(section => {
+                const categoryId = section.id;
+                const shouldShowSection = selectedCategory === 'all' || categoryId === selectedCategory;
+                
+                if (shouldShowSection) {
+                    section.classList.remove('hidden');
+                    
+                    // Check if there are any visible items in this section
+                    const hasVisibleItems = Array.from(section.querySelectorAll('.vendor-item'))
+                        .some(item => !item.classList.contains('hidden'));
+                    
+                    if (!hasVisibleItems) {
+                        section.classList.add('hidden');
+                    }
+                } else {
+                    section.classList.add('hidden');
+                }
+            });
+        }
+    });
+</script>
+
+</body>
+</html>
