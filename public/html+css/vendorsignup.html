@@ -115,7 +115,7 @@
   <div class="right">
     <div class="container">
       <h1>Vendor Signup - CELEBR8</h1>
-      <form id="signupForm">
+      <form id="vendorsignupForm" method="POST" action="/vendorsignup">
 
         <div class="form-group side-by-side">
           <div class="half-width">
@@ -175,6 +175,7 @@
             <label for="city">City</label>
             <select id="city" name="city" required>
               <option value="">Select City</option>
+
             </select>
           </div>
         </div>
@@ -258,7 +259,7 @@
       }
     }
 
-    document.getElementById("signupForm").addEventListener("submit", function(e) {
+    document.getElementById("vendorsignupForm").addEventListener("submit", function(e) {
       const password = document.getElementById("password").value;
       const confirmPassword = document.getElementById("confirmPassword").value;
       if (password !== confirmPassword) {

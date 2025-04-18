@@ -125,13 +125,13 @@
 </head>
 <body>
   <div class="left">
-    <img src="public/html+css/signupimg.jpeg" alt="Celebr8 Aesthetic">
+    <img src="signupimg.jpeg" alt="Celebr8 Aesthetic">
   </div>
 
   <div class="right">
     <div class="container">
       <h1>Signup to CELEBR8</h1>
-      <form id="signupForm" action="/signup" method="POST">
+      <form id="customersignupForm" action="/signup" method="POST">
         <!-- First and Last Name -->
         <div class="form-group side-by-side">
           <div class="half-width">
@@ -251,7 +251,7 @@
     }
 
     // Confirm password validation
-    document.getElementById("signupForm").addEventListener("submit", function (e) {
+    document.getElementById("customersignupForm").addEventListener("submit", function (e) {
       const password = document.getElementById("password").value;
       const confirmPassword = document.getElementById("confirmPassword").value;
       if (password !== confirmPassword) {

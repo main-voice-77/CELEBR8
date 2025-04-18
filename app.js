@@ -9,12 +9,13 @@ const PORT = 3000;
 // Middleware
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+
 // Serve the signup page at the root route ("/")
 app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, 'public', 'html+css', 'customersignup.html'));
-  });
-  
-app.use(express.static(path.join(__dirname, 'public/html+css')));
+  res.sendFile(path.join(__dirname, 'public', 'html+css', 'customersignup.html'));
+});
+
+app.use(express.static(path.join(__dirname, 'public', 'html+css')));
 
 // MySQL connection
 const db = mysql.createConnection({
@@ -32,9 +33,8 @@ db.connect((err) => {
   }
 });
 
-// Handle signup POST
+// Handle customer signup POST
 app.post('/signup', async (req, res) => {
-    console.log(req.body);
   const {
     firstname,
     lastname,
@@ -68,6 +68,65 @@ app.post('/signup', async (req, res) => {
   }
 });
 
+// Handle vendor signup POST
+app.post('/vendorsignup', async (req, res) => {
+  try {
+    const {
+      firstname,
+      lastname,
+      email,
+      contact,
+      password,
+      country,
+      state,
+      city,
+      vendortype,
+      otherService,
+      experience
+    } = req.body;
+
+    // Hash the password
+    const saltRounds = 10;
+    const hashedPassword = await bcrypt.hash(password, saltRounds);
+
+    // Handle optional field for "Other" service type
+    const finalOtherService = vendortype === "Other" ? otherService : null;
+
+    const sql = `
+      INSERT INTO vendors 
+        (first_name, last_name, email, contact, password_hash, country, state, city, vendortype, other_service, experience)
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+    `;
+
+    const values = [
+      firstname,
+      lastname,
+      email,
+      contact,
+      hashedPassword,
+      country,
+      state,
+      city,
+      vendortype,
+      finalOtherService,
+      experience
+    ];
+
+    db.query(sql, values, (err, result) => {
+      if (err) {
+        console.error('Error inserting vendor:', err);
+        return res.status(500).json({ success: false, message: 'Database error' });
+      }
+      res.status(200).json({ success: true, message: 'Vendor registered successfully' });
+    });
+
+  } catch (error) {
+    console.error('Error during vendor signup:', error);
+    res.status(500).json({ success: false, message: 'Internal server error' });
+  }
+});
+
+// Start the server
 app.listen(PORT, () => {
   console.log(`Server running at http://localhost:${PORT}`);
 });
