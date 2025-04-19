@@ -10,30 +10,31 @@ const PORT = 3000;
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
-// Serve the signup page at the root route ("/")
-app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'html+css', 'customersignup.html'));
-});
+// ✅ Serve static files from 'public' directory
+app.use(express.static(path.join(__dirname, 'public')));
 
-app.use(express.static(path.join(__dirname, 'public', 'html+css')));
-
-// MySQL connection
+// Establishing a connection to the MySQL database
 const db = mysql.createConnection({
-  host: 'localhost',
-  user: 'root',      // e.g., 'root'
-  password: 'chikkisql@1379',
-  database: 'celebr8'
+  host: 'localhost', // or your database server
+  user: 'root', // replace with your database username
+  password: 'chikkisql@1379', // replace with your database password
+  database: 'celebr8' // replace with your database name
 });
 
 db.connect((err) => {
   if (err) {
-    console.error('DB connection failed:', err);
-  } else {
-    console.log('Connected to MySQL');
+    console.error('Error connecting to the database:', err);
+    return;
   }
+  console.log('Connected to the MySQL database');
 });
 
-// Handle customer signup POST
+// ✅ Serve main.html at the root route "/"
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'main.html'));
+});
+
+// ✅ Handle customer signup POST
 app.post('/signup', async (req, res) => {
   const {
     firstname,
@@ -60,7 +61,8 @@ app.post('/signup', async (req, res) => {
         console.error('Insert error:', err);
         return res.status(500).send('Signup failed');
       }
-      res.send('Signup successful!');
+      res.redirect('/customerhmp.html');
+
     });
   } catch (error) {
     console.error('Hashing error:', error);
@@ -68,7 +70,7 @@ app.post('/signup', async (req, res) => {
   }
 });
 
-// Handle vendor signup POST
+// ✅ Handle vendor signup POST
 app.post('/vendorsignup', async (req, res) => {
   try {
     const {
@@ -85,11 +87,7 @@ app.post('/vendorsignup', async (req, res) => {
       experience
     } = req.body;
 
-    // Hash the password
-    const saltRounds = 10;
-    const hashedPassword = await bcrypt.hash(password, saltRounds);
-
-    // Handle optional field for "Other" service type
+    const hashedPassword = await bcrypt.hash(password, 10);
     const finalOtherService = vendortype === "Other" ? otherService : null;
 
     const sql = `
@@ -114,19 +112,19 @@ app.post('/vendorsignup', async (req, res) => {
 
     db.query(sql, values, (err, result) => {
       if (err) {
-        console.error('Error inserting vendor:', err);
-        return res.status(500).json({ success: false, message: 'Database error' });
+        console.error('Vendor insert error:', err);
+        return res.status(500).json({ success: false, message: 'DB error' });
       }
-      res.status(200).json({ success: true, message: 'Vendor registered successfully' });
+      res.redirect('/vendorhmp.html');
     });
 
   } catch (error) {
-    console.error('Error during vendor signup:', error);
-    res.status(500).json({ success: false, message: 'Internal server error' });
+    console.error('Vendor signup error:', error);
+    res.status(500).json({ success: false, message: 'Server error' });
   }
 });
 
-// Start the server
+// Start server
 app.listen(PORT, () => {
-  console.log(`Server running at http://localhost:${PORT}`);
+  console.log(`🚀 Server running at http://localhost:${PORT}`);
 });
