@@ -124,7 +124,7 @@
     <div class="container">
       <h1>Customer Login</h1>
 
-      <form id="loginForm" onsubmit="return handleSubmit()">
+      <form id="loginForm">
         <div class="form-group">
           <label for="email">Email Address</label>
           <input type="email" id="email" name="email" placeholder="Enter your email" required>
@@ -145,27 +145,50 @@
   </div>
 
   <script>
-    function handleSubmit() {
+    document.getElementById('loginForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+  
       const email = document.getElementById("email").value.trim();
       const password = document.getElementById("password").value;
-
+  
       const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
       const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?#&^])[A-Za-z\d@$!%*?#&^]{8,}$/;
-
+  
       if (!emailRegex.test(email)) {
         alert("Please enter a valid email address (e.g., example@gmail.com).");
-        return false;
+        return;
       }
-
+  
       if (!passwordRegex.test(password)) {
         alert("Password must be at least 8 characters and include:\n- 1 uppercase letter\n- 1 lowercase letter\n- 1 number\n- 1 special character (@$!%*?#&^)");
-        return false;
+        return;
       }
-
-      // Redirecting to customer home as default
-      window.location.href = "customerhmp.html";
-      return false;
-    }
+  
+      try {
+        const res = await fetch('/login', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ email, password }),
+        });
+  
+        if (res.ok) {
+          window.location.href = "/customerhmp.html";
+        } else if (res.status === 401) {
+          alert("Incorrect password. Please try again.");
+        } else if (res.status === 404) {
+          alert("Email not found. Please register first.");
+        } else {
+          alert("Something went wrong. Please try again later.");
+        }
+  
+      } catch (err) {
+        console.error("Login error:", err);
+        alert("Server error. Please try again later.");
+      }
+    });
   </script>
+  
 </body>
 </html>

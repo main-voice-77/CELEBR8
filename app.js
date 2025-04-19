@@ -124,6 +124,63 @@ app.post('/vendorsignup', async (req, res) => {
   }
 });
 
+// login for customers
+app.post('/login', (req, res) => {
+  const { email, password } = req.body;
+
+  const sql = 'SELECT * FROM users WHERE email = ?';
+
+  db.query(sql, [email], async (err, results) => {
+    if (err) {
+      console.error('DB error:', err);
+      return res.status(500).send('Server error');
+    }
+
+    if (results.length === 0) {
+      return res.status(404).send('Email not found');
+    }
+
+    const user = results[0];
+
+    const match = await bcrypt.compare(password, user.password_hash);
+
+    if (!match) {
+      return res.status(401).send('Wrong password');
+    }
+
+    // Success
+    res.status(200).send('Login successful');
+  });
+});
+//login for vendors
+app.post('/login', (req, res) => {
+  const { email, password } = req.body;
+
+  const sql = 'SELECT * FROM users WHERE email = ?';
+
+  db.query(sql, [email], async (err, results) => {
+    if (err) {
+      console.error('DB error:', err);
+      return res.status(500).send('Server error');
+    }
+
+    if (results.length === 0) {
+      return res.status(404).send('Email not found');
+    }
+
+    const user = results[0];
+
+    const match = await bcrypt.compare(password, user.password_hash);
+
+    if (!match) {
+      return res.status(401).send('Wrong password');
+    }
+
+    // Success
+    res.status(200).send('Login successful');
+  });
+});
+
 // Start server
 app.listen(PORT, () => {
   console.log(`🚀 Server running at http://localhost:${PORT}`);
