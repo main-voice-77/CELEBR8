@@ -180,6 +180,85 @@ app.post('/login', (req, res) => {
     res.status(200).send('Login successful');
   });
 });
+//storing booking form info
+app.post('/book-event', (req, res) => {
+  const {
+    name,
+    email,
+    phone,
+    eventType,
+    vendorName,
+    bookingFor,
+    eventDate,
+    eventTime,
+    attendees,
+    budget,
+    theme,
+    specs
+  } = req.body;
+
+  const sql = `
+    INSERT INTO bookings (
+      name, email, phone, event_type, vendor_name, booking_for,
+      event_date, event_time, attendees, budget, theme, specs
+    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+  `;
+
+  const values = [
+    name,
+    email,
+    phone,
+    eventType,
+    vendorName,
+    bookingFor,
+    eventDate,
+    eventTime,
+    attendees,
+    budget || null,
+    theme || null,
+    specs || null
+  ];
+
+  db.query(sql, values, (err, result) => {
+    if (err) {
+      console.error('Booking insert error:', err);
+      return res.status(500).send('Something went wrong while booking.');
+    }
+
+    res.redirect('/mybookings.html');
+  });
+});
+//for custoomer bookings
+app.get('/api/bookings', (req, res) => {
+  const email = req.query.email;
+  const query = 'SELECT * FROM bookings WHERE email = ? ORDER BY event_date DESC';
+  db.query(query, [email], (err, results) => {
+    if (err) return res.status(500).json({ error: err });
+    res.json(results);
+  });
+});
+//for vendor bookings
+app.get('/api/vendor-bookings', (req, res) => {
+  const vendorName = req.query.vendor_name;
+  const query = 'SELECT * FROM bookings WHERE vendor_name = ? ORDER BY event_date DESC';
+  db.query(query, [vendorName], (err, results) => {
+    if (err) return res.status(500).json({ error: err });
+    res.json(results);
+  });
+});
+//for vendor to confirm bookings
+app.post('/api/confirm-booking', (req, res) => {
+  const { id, advance_paid } = req.body;
+  const query = `
+    UPDATE bookings
+    SET is_confirmed = TRUE, advance_paid = ?, status = 'confirmed'
+    WHERE id = ?
+  `;
+  db.query(query, [advance_paid, id], (err, result) => {
+    if (err) return res.json({ success: false, error: err });
+    res.json({ success: true });
+  });
+});
 
 // Start server
 app.listen(PORT, () => {

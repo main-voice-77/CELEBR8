@@ -128,42 +128,73 @@
     <div class="orders-content">
       <div class="vendor-name" id="vendorNameDisplay">My Orders</div>
 
-      <div class="section">
-        <h2>Recent Bookings</h2>
-        <p>
-          🛎️ Order #CEB202504: Wedding Dinner - April 14, 2025 - Chennai Convention Hall<br>
-          🛎️ Order #CEB202503: Corporate Lunch - April 13, 2025 - Green Leaf Banquets<br>
-          🛎️ Order #CEB202502: Baby Shower - April 11, 2025 - Sapphire Venue, Hyderabad
-        </p>
-      </div>
+      
 
-      <div class="section">
-        <h2>Pending Confirmations</h2>
-        <p>
-          ⏳ Awaiting confirmation for Order #CEB202505: Pre-wedding Sangeet - April 16<br>
-          🔄 Customer reviewing proposal for Order #CEB202506: College Farewell Catering<br>
-          📅 Tentative date held for Order #CEB202507: Destination Wedding - May 1
-        </p>
-      </div>
+      
+  
 
-      <div class="section">
-        <h2>Completed Events</h2>
-        <p>
-          ✅ Order #CEB202498: Engagement Dinner - April 8, 2025<br>
-          ✅ Order #CEB202496: Housewarming Buffet - April 6, 2025<br>
-          ✅ Order #CEB202493: Anniversary Celebration - April 2, 2025
-        </p>
-      </div>
-    </div>
-  </div>
+      <script>
+        const vendorName = localStorage.getItem("vendorName");
+      
+        fetch(`/api/vendor-bookings?vendor_name=${encodeURIComponent(vendorName)}`)
+          .then(res => res.json())
+          .then(bookings => {
+            const sections = {
+              recent: '',
+              pending: '',
+              completed: ''
+            };
+      
+            bookings.forEach(b => {
+              const bookingInfo = `
+                <div class="mb-3 p-2 bg-white rounded shadow">
+                  <p><strong>Event:</strong> ${b.event_type} - ${b.event_date}</p>
+                  <p><strong>Customer:</strong> ${b.booking_for}</p>
+                  <p><strong>Email:</strong> ${b.email} | <strong>Phone:</strong> ${b.phone}</p>
+                  ${b.status === 'pending' ? `
+                    <input type="number" placeholder="Advance (₹)" id="advance-${b.id}" class="border p-1 rounded w-32 mb-2" />
+                    <button class="bg-green-500 text-white px-2 py-1 rounded" onclick="confirmBooking(${b.id})">Confirm</button>
+                  ` : `<p class="text-green-600">✅ Confirmed - Advance: ₹${b.advance_paid}</p>`}
+                </div>
+              `;
+      
+              if (b.status === 'pending') sections.pending += bookingInfo;
+              else if (b.status === 'completed') sections.completed += bookingInfo;
+              else sections.recent += bookingInfo;
+            });
+      
+            document.querySelector(".section:nth-child(2) p").innerHTML = sections.recent;
+            document.querySelector(".section:nth-child(3) p").innerHTML = sections.pending;
+            document.querySelector(".section:nth-child(4) p").innerHTML = sections.completed;
+          });
+          
+  function confirmBooking(bookingId) {
+    const advanceAmount = document.getElementById(`advance-${bookingId}`).value;
 
-  <script>
-    const vendorName = localStorage.getItem('vendorName');
-    const vendorNameDisplay = document.getElementById('vendorNameDisplay');
-    if (vendorName) {
-      vendorNameDisplay.textContent = `${vendorName}'s Orders`;
+    if (!advanceAmount || advanceAmount <= 0) {
+      alert("Please enter a valid advance amount.");
+      return;
     }
-  </script>
+
+    fetch('/api/confirm-booking', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ id: bookingId, advance_paid: advanceAmount })
+    })
+    .then(res => res.json())
+    .then(data => {
+      if (data.success) {
+        alert("Booking confirmed!");
+        location.reload();
+      } else {
+        alert("Error confirming booking.");
+      }
+    });
+  }
+</script>
+
+      
+      
 
 </body>
 </html>

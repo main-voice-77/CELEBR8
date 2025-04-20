@@ -153,65 +153,47 @@
   </style>
 </head>
 <body>
+<script>
+  const customerEmail = localStorage.getItem("customerEmail");
+
+  fetch(`/api/bookings?email=${encodeURIComponent(customerEmail)}`)
+    .then(res => res.json())
+    .then(bookings => {
+      const container = document.querySelector(".container");
+      let html = '<h2>Current Bookings</h2>';
+
+      bookings.forEach(booking => {
+        const progress = booking.status === 'completed' ? 100 : booking.status === 'confirmed' ? 60 : 20;
+        html += `
+          <div class="booking-card">
+            <div class="booking-header">
+              <span>${booking.event_type} - ${booking.event_date}</span>
+              <span class="status ${booking.status}">${booking.status.charAt(0).toUpperCase() + booking.status.slice(1)}</span>
+            </div>
+            <div class="booking-details">
+              <p>Vendor: ${booking.vendor_name}</p>
+              <p>Contact: ${booking.phone} | ${booking.email}</p>
+              ${booking.is_confirmed ? `<p>Advance to Pay: ₹${booking.advance_paid}</p>` : ''}
+            </div>
+            <div class="progress-bar-container">
+              <div class="progress-bar" style="width: ${progress}%"></div>
+            </div>
+          </div>
+        `;
+      });
+
+      container.innerHTML += html;
+    });
+</script>
+
+
 
 <header>My Bookings</header>
 
 <div class="container">
   <h2>Current Bookings</h2>
 
-  <div class="booking-card">
-    <div class="booking-header">
-      <span>Wedding Event - March 25, 2025</span>
-      <span class="status inprogress">In Progress</span>
-    </div>
-    <div class="booking-details">
-      <p>Venue: Royal Palace Convention Hall</p>
-      <p>Package: Premium Wedding Package</p>
-      <p>Contact: +91-9876543210 | eventmanager@celebr8.com</p>
-    </div>
-    <div class="progress-bar-container">
-      <div class="progress-bar" style="width: 60%;"></div>
-    </div>
-    <div class="actions">
-      <button>Track Progress</button>
-      <button>Cancel Booking</button>
-    </div>
-  </div>
-
-  <div class="booking-card">
-    <div class="booking-header">
-      <span>Birthday Bash - April 15, 2025</span>
-      <span class="status confirmed">Confirmed</span>
-    </div>
-    <div class="booking-details">
-      <p>Venue: FunTime Park, Chennai</p>
-      <p>Package: Kids Deluxe Theme</p>
-      <p>Contact: +91-9876543210 | eventmanager@celebr8.com</p>
-    </div>
-    <div class="progress-bar-container">
-      <div class="progress-bar" style="width: 20%;"></div>
-    </div>
-    <div class="actions">
-      <button>Track Progress</button>
-      <button>Reschedule</button>
-      <button>Cancel Booking</button>
-    </div>
-  </div>
-
-  <h2>Booking History</h2>
-
-  <div class="booking-card">
-    <div class="booking-header">
-      <span>College Reunion - Jan 5, 2025</span>
-      <span class="status completed">Completed</span>
-    </div>
-    <div class="booking-details">
-      <p>Venue: Green View Resort</p>
-      <p>Package: Reunion Fun Package</p>
-      <p>Contact: support@celebr8.com</p>
-    </div>
-  </div>
-</div>
+  
 
 <footer>
   © 2025 Celebr8 Event Management. All rights reserved.
