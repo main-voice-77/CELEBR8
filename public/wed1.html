@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Vendor Details - Event Feast</title>
+  <title>Vendor Details - Wedding Frames</title>
 
   <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
@@ -20,7 +20,7 @@
     h1, h2, h3 {
       font-family: 'Playfair Display', serif;
       margin-bottom: 15px;
-      font-weight: 700; /* Bold headings */
+      font-weight: 700;
     }
 
     .container {
@@ -32,7 +32,7 @@
     .header {
       position: relative;
       height: 400px;
-      background: url('wed1.jpg') center center / cover no-repeat;
+      background: url('wed20.jpeg') center center / cover no-repeat;
       display: flex;
       align-items: flex-end;
       justify-content: center;
@@ -154,6 +154,29 @@
       background: #444;
     }
 
+    .book-now-btn {
+      display: block;
+      text-align: center;
+      width: 100%;
+      background: linear-gradient(135deg, #FFD700, #FFB700);
+      color: #2B2B2B;
+      font-weight: 600;
+      padding: 15px;
+      border: none;
+      border-radius: 10px;
+      font-size: 18px;
+      margin-top: 20px;
+      cursor: pointer;
+      transition: background 0.3s ease, transform 0.2s;
+      box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+      text-decoration: none;
+    }
+
+    .book-now-btn:hover {
+      background: linear-gradient(135deg, #FFC300, #FFA500);
+      transform: scale(1.03);
+    }
+
     p {
       line-height: 1.6;
       font-size: 18px;
@@ -187,8 +210,8 @@
 
   <div class="header">
     <div class="header-overlay">
-      <h1>Event Feast</h1>
-      <p>⭐ 4.8 · Mumbai, Maharashtra</p>
+      <h1>Wedding Frames</h1>
+      <p>⭐ 4.5 · Goa</p>
     </div>
   </div>
 
@@ -197,45 +220,48 @@
     <div class="info-section">
       <div class="info-left">
         <h2>About Us</h2>
-        <p>Premium catering service with 15 years of experience in luxury events.</p>
+        <p>Where culture meets candid.</p>
 
         <h3>Services</h3>
-        <div class="tag">Catering</div>
-        <div class="tag">Food Styling</div>
+        <div class="tag">Pre-Wedding Shoot</div>
+        <div class="tag">Live Wedding Streaming</div>
+        <div class="tag">Cinematic Wedding Video</div>
 
         <div class="gallery">
           <h3>Gallery</h3>
-          <img src="wed1-1.jpeg" alt="Gallery 1">
-          <img src="wed1-2.jpeg" alt="Gallery 2">
-          <img src="wed1-3.jpeg" alt="Gallery 3">
+          <img src="wed5-1.jpeg" alt="Gallery 1">
+          <img src="wed5-2.jpeg" alt="Gallery 2">
+          <img src="wed5-3.jpeg" alt="Gallery 3">
         </div>
       </div>
 
       <div class="info-right">
         <h3>Contact Information</h3>
-        <p>📞 +91 98765 43210</p>
-        <p>📧 info@eventfeast.com</p>
-        <p>📍 Andheri West, Mumbai</p>
+        <p>📞 +91 98234 76543</p>
+        <p>📧 info@weddingframes.com</p>
+        <p>📍 Goa</p>
 
         <h3>Price Range</h3>
-        <p>₹800 - ₹1500 per plate</p>
+        <p>₹3500 - ₹6000</p>
 
         <h3>Offers & Deals</h3>
         <p>🎉 10% off on bookings above ₹1,00,000</p>
-        <p>🎁 Free mocktail counter on weddings booked before April 30</p>
-        <p>✨ Custom packages available for large gatherings</p>
+        <p>✨ Custom packages available</p>
+
+        <!-- Redirects to bookingform.html -->
+        <a href="bookingform.html" class="book-now-btn">BOOK NOW</a>
       </div>
     </div>
 
     <div class="review-box">
       <h3>Reviews</h3>
       <div class="review">
-        ⭐ <span>5.0</span> by Priya S.<br>
-        <small>Amazing food and service!</small>
+        ⭐ <span>4.5</span> by Priya S.<br>
+        <small>Nice photography</small>
       </div>
       <div class="review">
-        ⭐ <span>4.5</span> by Rahul M.<br>
-        <small>Great variety and taste</small>
+        ⭐ <span>4.4</span> by Rahul M.<br>
+        <small>Good option for candid photos and wedding videos</small>
       </div>
     </div>
 
