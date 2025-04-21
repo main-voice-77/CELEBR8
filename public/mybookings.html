@@ -17,6 +17,9 @@
       background: #F8F8F8;
       color: #2B2B2B;
       font-size: 18px;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
     }
 
     header {
@@ -28,7 +31,8 @@
       font-weight: bold;
     }
 
-    .container {
+    .main-container {
+      flex: 1;
       padding: 50px 8%;
     }
 
@@ -132,9 +136,27 @@
       color: white;
       text-align: center;
       padding: 20px;
-      margin-top: 50px;
       font-size: 1em;
+      margin-top: auto;
     }
+    .back-home {
+  display: inline-block;
+  margin: 30px auto 50px;
+  padding: 12px 24px;
+  background-color: #2B2B2B;
+  color: white;
+  
+  text-decoration: none;
+  font-size: 1em;
+  font-weight: 600;
+  border-radius: 8px;
+  transition: background-color 0.3s ease;
+  text-align:left;
+}
+
+.back-home:hover {
+  background-color: #444;
+}
 
     @media (max-width: 768px) {
       .booking-header {
@@ -153,51 +175,64 @@
   </style>
 </head>
 <body>
-<script>
-  const customerEmail = localStorage.getItem("customerEmail");
+  <header>My Bookings</header>
+  <a href="/customerhmp.html" class="back-home">← Back to Home Page</a>
+  
+  
+  
+  <div class="main-container">
+    <!-- Content will be inserted here by JavaScript -->
+  </div>
 
-  fetch(`/api/bookings?email=${encodeURIComponent(customerEmail)}`)
-    .then(res => res.json())
-    .then(bookings => {
-      const container = document.querySelector(".container");
-      let html = '<h2>Current Bookings</h2>';
+  <footer>
+    © 2025 Celebr8 Event Management. All rights reserved.
+  </footer>
 
-      bookings.forEach(booking => {
-        const progress = booking.status === 'completed' ? 100 : booking.status === 'confirmed' ? 60 : 20;
-        html += `
-          <div class="booking-card">
-            <div class="booking-header">
-              <span>${booking.event_type} - ${booking.event_date}</span>
-              <span class="status ${booking.status}">${booking.status.charAt(0).toUpperCase() + booking.status.slice(1)}</span>
-            </div>
-            <div class="booking-details">
-              <p>Vendor: ${booking.vendor_name}</p>
-              <p>Contact: ${booking.phone} | ${booking.email}</p>
-              ${booking.is_confirmed ? `<p>Advance to Pay: ₹${booking.advance_paid}</p>` : ''}
-            </div>
-            <div class="progress-bar-container">
-              <div class="progress-bar" style="width: ${progress}%"></div>
-            </div>
-          </div>
+  <script>
+    const customerEmail = localStorage.getItem("customerEmail");
+    console.log("Customer Email:", customerEmail);
+
+    fetch(`/api/bookings?email=${encodeURIComponent(customerEmail)}`)
+      .then(res => res.json())
+      .then(bookings => {
+        const container = document.querySelector(".main-container");
+        let html = '<h2>Current Bookings</h2>';
+
+        if (bookings.length === 0) {
+          html += '<p>No bookings found.</p>';
+        } else {
+          bookings.forEach(booking => {
+            const progress = booking.status === 'completed' ? 100 : 
+                           booking.status === 'confirmed' ? 60 : 20;
+            html += `
+              <div class="booking-card">
+                <div class="booking-header">
+                  <span>${booking.event_type} - ${booking.event_date}</span>
+                  <span class="status ${booking.status}">${booking.status.charAt(0).toUpperCase() + booking.status.slice(1)}</span>
+                </div>
+                <div class="booking-details">
+                  <p>Vendor: ${booking.vendor_name}</p>
+                  <p>Contact: ${booking.phone} | ${booking.email}</p>
+                  ${booking.is_confirmed ? `<p>Advance to Pay: ₹${booking.advance_paid}</p>` : ''}
+                </div>
+                <div class="progress-bar-container">
+                  <div class="progress-bar" style="width: ${progress}%"></div>
+                </div>
+              </div>
+            `;
+          });
+        }
+        
+        container.innerHTML = html;
+      })
+      .catch(error => {
+        console.error("Error fetching bookings:", error);
+        document.querySelector(".main-container").innerHTML = `
+          <h2>Current Bookings</h2>
+          <p>Error loading bookings. Please try again later.</p>
         `;
       });
-
-      container.innerHTML += html;
-    });
-</script>
-
-
-
-<header>My Bookings</header>
-
-<div class="container">
-  <h2>Current Bookings</h2>
-
-  
-
-<footer>
-  © 2025 Celebr8 Event Management. All rights reserved.
-</footer>
+  </script>
 
 </body>
 </html>
