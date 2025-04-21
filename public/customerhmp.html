@@ -21,20 +21,24 @@
       scroll-behavior: smooth;
     }
 
+    
     .hero {
-      position: relative;
-      height: 100vh;
-      color: white;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      text-align: center;
-      background-size: contain;
-      background-repeat: no-repeat;
-      background-position: center;
-      transition: background-image 1s ease-in-out;
-    }
+    position: relative;
+    height: 100vh;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    background-size: cover; /* Ensures the image covers the entire section */
+    background-repeat: no-repeat;
+    background-position: center;
+    background-attachment: fixed; /* Fixes the background for better clarity */
+    transition: background-image 1s ease-in-out;
+  }
+
+
 
     .overlay {
       position: absolute;
@@ -335,7 +339,7 @@
 
   <script>
     const hero = document.getElementById('hero');
-    const images = ['b1.jpeg', 'b2.jpeg', 'b3.jpeg', 'b4.jpeg', 'b5.jpeg', 'b6.jpeg'];
+    const images = ['b4.jpeg', 'b2upd.jpeg', 'b3upd.jpeg', 'b4upd.jpeg', 'b6upd.jpeg', 'b5ud.jpeg'];
     let index = 0;
 
     function changeBackground() {
@@ -344,7 +348,7 @@
     }
 
     changeBackground();
-    setInterval(changeBackground, 5000);
+    setInterval(changeBackground, 2000);
   </script>
 </body>
 </html>
