@@ -107,6 +107,26 @@
       box-shadow: 0 4px 12px rgba(0,0,0,0.3);
       color: #fff;
     }
+
+    .confirm-btn {
+      background-color: #ffcc00;
+      color: black;
+      padding: 10px 20px;
+      border-radius: 8px;
+      font-weight: bold;
+      cursor: pointer;
+      border: none;
+      transition: background-color 0.3s;
+    }
+
+    .confirm-btn:hover {
+      background-color: #e6b800;
+    }
+
+    .confirmed {
+      background-color: #4caf50;
+      color: white;
+    }
   </style>
 </head>
 <body>
@@ -128,73 +148,122 @@
     <div class="orders-content">
       <div class="vendor-name" id="vendorNameDisplay">My Orders</div>
 
-      
+      <!-- ✅ Add sections for orders -->
+      <div class="section">
+        <h2>Recent Bookings</h2>
+        <div id="recentBookings">Loading...</div>
+      </div>
 
-      
-  
+      <div class="section">
+        <h2>Pending Confirmations</h2>
+        <div id="pendingBookings">Loading...</div>
+      </div>
 
-      <script>
-        const vendorName = localStorage.getItem("vendorName");
-      
-        fetch(`/api/vendor-bookings?vendor_name=${encodeURIComponent(vendorName)}`)
-          .then(res => res.json())
-          .then(bookings => {
-            const sections = {
-              recent: '',
-              pending: '',
-              completed: ''
-            };
-      
-            bookings.forEach(b => {
-              const bookingInfo = `
-                <div class="mb-3 p-2 bg-white rounded shadow">
-                  <p><strong>Event:</strong> ${b.event_type} - ${b.event_date}</p>
-                  <p><strong>Customer:</strong> ${b.booking_for}</p>
-                  <p><strong>Email:</strong> ${b.email} | <strong>Phone:</strong> ${b.phone}</p>
-                  ${b.status === 'pending' ? `
-                    <input type="number" placeholder="Advance (₹)" id="advance-${b.id}" class="border p-1 rounded w-32 mb-2" />
-                    <button class="bg-green-500 text-white px-2 py-1 rounded" onclick="confirmBooking(${b.id})">Confirm</button>
-                  ` : `<p class="text-green-600">✅ Confirmed - Advance: ₹${b.advance_paid}</p>`}
-                </div>
-              `;
-      
-              if (b.status === 'pending') sections.pending += bookingInfo;
-              else if (b.status === 'completed') sections.completed += bookingInfo;
-              else sections.recent += bookingInfo;
-            });
-      
-            document.querySelector(".section:nth-child(2) p").innerHTML = sections.recent;
-            document.querySelector(".section:nth-child(3) p").innerHTML = sections.pending;
-            document.querySelector(".section:nth-child(4) p").innerHTML = sections.completed;
-          });
-          
-  function confirmBooking(bookingId) {
-    const advanceAmount = document.getElementById(`advance-${bookingId}`).value;
+      <div class="section">
+        <h2>Completed Bookings</h2>
+        <div id="completedBookings">Loading...</div>
+      </div>
 
-    if (!advanceAmount || advanceAmount <= 0) {
-      alert("Please enter a valid advance amount.");
-      return;
+    </div>
+  </div>
+
+  <script>
+    const vendorName = localStorage.getItem("vendorName");
+
+    if (!vendorName) {
+      alert("Vendor not logged in properly!");
     }
 
-    fetch('/api/confirm-booking', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ id: bookingId, advance_paid: advanceAmount })
-    })
-    .then(res => res.json())
-    .then(data => {
-      if (data.success) {
-        alert("Booking confirmed!");
-        location.reload();
-      } else {
-        alert("Error confirming booking.");
-      }
-    });
-  }
-</script>
+    document.getElementById("vendorNameDisplay").innerText = vendorName + "'s Orders";
 
-      
-      
+    fetch(`/api/vendor-bookings?vendor_name=${encodeURIComponent(vendorName)}`)
+      .then(res => res.json())
+      .then(bookings => {
+        const sections = {
+          recent: '',
+          pending: '',
+          completed: ''
+        };
+
+        bookings.forEach(b => {
+          const bookingInfo = `
+            <div class="mb-5 p-4 bg-white rounded-lg shadow-lg text-black" id="booking-${b.id}">
+              <p><strong>Customer Name:</strong> ${b.booking_for}</p>
+              <p><strong>Email:</strong> ${b.email}</p>
+              <p><strong>Phone:</strong> ${b.phone}</p>
+              <p><strong>Guests:</strong> ${b.number_of_guests}</p>
+              <p><strong>Event Date:</strong> ${formatDateTime(b.event_date)}</p>
+
+              ${b.status === 'pending' ? `
+                <div class="flex items-center gap-2 mt-3">
+                  <input type="number" placeholder="Advance ₹" id="advance-${b.id}" class="border border-gray-300 rounded-lg px-3 py-2 text-sm w-32 focus:outline-none focus:ring-2 focus:ring-yellow-400" />
+                  <button class="confirm-btn" onclick="confirmBooking(${b.id}, '${b.booking_for}')">Confirm</button>
+                </div>
+              ` : `
+                <p class="mt-3 text-green-600 font-semibold confirmed">✅ Confirmed — Advance Paid: ₹${b.advance_paid}</p>
+              `}
+            </div>
+          `;
+
+          if (b.status === 'pending') {
+            sections.pending += bookingInfo;
+          } else if (b.status === 'confirmed') {
+            sections.completed += bookingInfo;
+          } else {
+            sections.recent += bookingInfo;
+          }
+        });
+
+        document.getElementById("recentBookings").innerHTML = sections.recent || "No recent bookings.";
+        document.getElementById("pendingBookings").innerHTML = sections.pending || "No pending confirmations.";
+        document.getElementById("completedBookings").innerHTML = sections.completed || "No completed bookings.";
+      });
+
+    function confirmBooking(bookingId, customerName) {
+      const advanceAmount = document.getElementById(`advance-${bookingId}`).value;
+
+      if (!advanceAmount || advanceAmount <= 0) {
+        alert("Please enter a valid advance amount.");
+        return;
+      }
+
+      fetch('/api/confirm-booking', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id: bookingId, advance_paid: advanceAmount })
+      })
+      .then(res => res.json())
+      .then(data => {
+        if (data.success) {
+          alert("Booking confirmed!");
+          moveToRecent(bookingId);
+        } else {
+          alert("Error confirming booking.");
+        }
+      });
+    }
+
+    function moveToRecent(bookingId) {
+      const bookingElement = document.getElementById(`booking-${bookingId}`);
+      // Mark as confirmed
+      bookingElement.querySelector(".confirm-btn").classList.add("confirmed");
+      bookingElement.querySelector(".confirm-btn").innerText = "Confirmed";
+      bookingElement.querySelector(".confirm-btn").disabled = true;
+
+      // Move booking to "Recent Bookings" section
+      document.getElementById("recentBookings").innerHTML += bookingElement.outerHTML;
+
+      // Optionally remove from "Pending Bookings" (if you're dynamically updating the sections)
+      const pendingBookings = document.getElementById("pendingBookings");
+      pendingBookings.removeChild(bookingElement);
+    }
+
+    // ✅ Helper to format event date and time nicely
+    function formatDateTime(dateString) {
+      const options = { year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' };
+      return new Date(dateString).toLocaleString(undefined, options);
+    }
+  </script>
 
 </body>
 </html>

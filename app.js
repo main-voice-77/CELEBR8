@@ -237,6 +237,24 @@ app.get('/api/bookings', (req, res) => {
     res.json(results);
   });
 });
+// ✅ Add this new API endpoint for vendor bookings
+app.get('/api/vendor-bookings', (req, res) => {
+  const vendorName = req.query.vendor_name;
+  
+  if (!vendorName) {
+    return res.status(400).json({ error: 'Vendor name is required' });
+  }
+
+  const sql = 'SELECT * FROM bookings WHERE vendor_name = ? ORDER BY event_date DESC';
+
+  db.query(sql, [vendorName], (err, results) => {
+    if (err) {
+      console.error('Error fetching bookings:', err);
+      return res.status(500).json({ error: 'Failed to fetch bookings' });
+    }
+    res.json(results);
+  });
+});
 
 
 // Start server
