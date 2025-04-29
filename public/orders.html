@@ -111,16 +111,18 @@
     .confirm-btn {
       background-color: #ffcc00;
       color: black;
-      padding: 10px 20px;
-      border-radius: 8px;
+      padding: 15px 25px;
+      border-radius: 12px;
       font-weight: bold;
       cursor: pointer;
       border: none;
-      transition: background-color 0.3s;
+      font-size: 18px;
+      transition: background-color 0.3s, transform 0.3s;
     }
 
     .confirm-btn:hover {
       background-color: #e6b800;
+      transform: scale(1.05);
     }
 
     .confirmed {
@@ -188,23 +190,24 @@
         bookings.forEach(b => {
           const bookingInfo = `
             <div class="mb-5 p-4 bg-white rounded-lg shadow-lg text-black" id="booking-${b.id}">
-              <p><strong>Customer Name:</strong> ${b.booking_for}</p>
+              <p><strong>Customer Name:</strong> ${b.name}</p>
               <p><strong>Email:</strong> ${b.email}</p>
               <p><strong>Phone:</strong> ${b.phone}</p>
-              <p><strong>Guests:</strong> ${b.number_of_guests}</p>
-              <p><strong>Event Date:</strong> ${formatDateTime(b.event_date)}</p>
+              <p><strong>Guests:</strong> ${b.attendees}</p>
+              <p><strong>Event Date:</strong> ${formatDateTime(b.event_date + 'T' + b.event_time)}</p>
 
               ${b.status === 'pending' ? `
                 <div class="flex items-center gap-2 mt-3">
                   <input type="number" placeholder="Advance ₹" id="advance-${b.id}" class="border border-gray-300 rounded-lg px-3 py-2 text-sm w-32 focus:outline-none focus:ring-2 focus:ring-yellow-400" />
-                  <button class="confirm-btn" onclick="confirmBooking(${b.id}, '${b.booking_for}')">Confirm</button>
+                  <button class="confirm-btn" onclick="confirmBooking(${b.id}, '${b.name}')">Confirm</button>
                 </div>
               ` : `
-                <p class="mt-3 text-green-600 font-semibold confirmed">✅ Confirmed — Advance Paid: ₹${b.advance_paid}</p>
+                <p class="mt-3 text-green-600 font-semibold confirmed">✅ Confirmed — Advance Paid: ₹${b.advance_amount}</p>
               `}
             </div>
           `;
 
+          // Append to appropriate section
           if (b.status === 'pending') {
             sections.pending += bookingInfo;
           } else if (b.status === 'confirmed') {
@@ -260,10 +263,10 @@
 
     // ✅ Helper to format event date and time nicely
     function formatDateTime(dateString) {
-      const options = { year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' };
-      return new Date(dateString).toLocaleString(undefined, options);
+      const options = { year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' };
+      const date = new Date(dateString);
+      return date.toLocaleString(undefined, options);
     }
   </script>
-
 </body>
 </html>
