@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Advance Payment - Celebr8</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: #F8F8F8;
+      color: #2B2B2B;
+      font-size: 18px;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    header {
+      background-color: #2B2B2B;
+      color: white;
+      padding: 30px;
+      text-align: center;
+      font-size: 2.2em;
+      font-weight: bold;
+    }
+
+    .main-container {
+      flex: 1;
+      padding: 50px 8%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    h2 {
+      margin-bottom: 25px;
+      font-size: 1.8em;
+    }
+
+    .payment-options {
+      background-color: white;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.05);
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      width: 100%;
+      max-width: 500px;
+      text-align: center;
+    }
+
+    .payment-options button {
+      padding: 14px;
+      font-size: 1em;
+      border: none;
+      border-radius: 8px;
+      background-color: #2B2B2B;
+      color: white;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .payment-options button:hover {
+      background-color: #555;
+    }
+
+    .back-home {
+      margin-top: 30px;
+      text-decoration: none;
+      color: #2B2B2B;
+      font-weight: bold;
+      font-size: 1em;
+    }
+
+    .back-home:hover {
+      text-decoration: underline;
+    }
+
+    footer {
+      background-color: #2B2B2B;
+      color: white;
+      text-align: center;
+      padding: 20px;
+      font-size: 1em;
+      margin-top: auto;
+    }
+  </style>
+</head>
+<body>
+
+  <header>Advance Payment</header>
+
+  <div class="main-container">
+    <h2>Select Payment Method</h2>
+    <div class="payment-options">
+      <button onclick="alert('Redirecting to GPay...')">Pay via GPay</button>
+      <button onclick="alert('Redirecting to PhonePe...')">Pay via PhonePe</button>
+      <button onclick="alert('Please contact the vendor to pay with cash.')">Pay with Cash</button>
+    </div>
+
+    <a href="/customerhmp.html" class="back-home">← Back to Home Page</a>
+  </div>
+
+  <footer>
+    © 2025 Celebr8 Event Management. All rights reserved.
+  </footer>
+
+</body>
+</html>

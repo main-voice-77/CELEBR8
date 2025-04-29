@@ -11,6 +11,21 @@
       padding: 0;
       box-sizing: border-box;
     }
+    .pay-now-btn {
+  display: inline-block;
+  background-color: #2B2B2B;
+  color: white;
+  padding: 10px 18px;
+  border-radius: 6px;
+  text-decoration: none;
+  font-size: 1em;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+}
+
+.pay-now-btn:hover {
+  background-color: #555;
+}
 
     body {
       font-family: 'Poppins', sans-serif;
@@ -189,6 +204,13 @@
   </footer>
 
   <script>
+    
+  function savePaymentInfo(eventType, advanceAmount) {
+    localStorage.setItem('paymentEventType', eventType);
+    localStorage.setItem('paymentAdvanceAmount', advanceAmount);
+  }
+
+
     const customerEmail = localStorage.getItem("customerEmail");
     console.log("Customer Email:", customerEmail);
 
@@ -202,25 +224,30 @@
           html += '<p>No bookings found.</p>';
         } else {
           bookings.forEach(booking => {
-            const progress = booking.status === 'completed' ? 100 : 
-                           booking.status === 'confirmed' ? 60 : 20;
-            html += `
-              <div class="booking-card">
-                <div class="booking-header">
-                  <span>${booking.event_type} - ${booking.event_date}</span>
-                  <span class="status ${booking.status}">${booking.status.charAt(0).toUpperCase() + booking.status.slice(1)}</span>
-                </div>
-                <div class="booking-details">
-                  <p>Vendor: ${booking.vendor_name}</p>
-                  <p>Contact: ${booking.phone} | ${booking.email}</p>
-                  ${booking.is_confirmed ? `<p>Advance to Pay: ₹${booking.advance_paid}</p>` : ''}
-                </div>
-                <div class="progress-bar-container">
-                  <div class="progress-bar" style="width: ${progress}%"></div>
-                </div>
-              </div>
-            `;
-          });
+  const progress = booking.status === 'completed' ? 100 : 
+                   booking.status === 'confirmed' ? 60 : 20;
+  html += `
+    <div class="booking-card">
+      <div class="booking-header">
+        <span>${booking.event_type} - ${booking.event_date}</span>
+        <span class="status ${booking.status}">${booking.status.charAt(0).toUpperCase() + booking.status.slice(1)}</span>
+      </div>
+      <div class="booking-details">
+        <p>Vendor: ${booking.vendor_name}</p>
+        <p>Contact: ${booking.phone} | ${booking.email}</p>
+        <p>Advance to Pay: ₹${booking.advance_paid}</p>
+      </div>
+      <div class="progress-bar-container">
+        <div class="progress-bar" style="width: ${progress}%"></div>
+      </div>
+      <div class="actions">
+       <a href="/payment.html" class="pay-now-btn" onclick="savePaymentInfo('${booking.event_type}', '${booking.advance_paid}')">Proceed with Advance Payment</a>
+
+      </div>
+    </div>
+  `;
+});
+
         }
         
         container.innerHTML = html;
