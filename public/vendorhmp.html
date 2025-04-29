@@ -150,14 +150,26 @@
     const hero = document.getElementById('hero');
     const images = ['ven4.jpg', 'ven5.jpg', 'ven3.jpg', 'ven2.jpg', 'd1.jpeg'];
     let index = 0;
-
+  
     function changeBackground() {
       hero.style.backgroundImage = `url('${images[index]}')`;
       index = (index + 1) % images.length;
     }
-
+  
     changeBackground();
     setInterval(changeBackground, 2000);
+  
+    // Get the vendor name from localStorage
+    const vendorName = localStorage.getItem('vendorName');
+  
+    // Set the vendor name in the content
+    if (vendorName) {
+      document.getElementById('animatedContent').innerHTML = `
+        <h1>Welcome</h1>
+        <h1>${vendorName}</h1>
+      `;
+    }
   </script>
+  
 </body>
 </html>
